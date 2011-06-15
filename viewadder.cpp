@@ -6,7 +6,7 @@ viewAdder::viewAdder(QObject *parent,QLayout* _la, Document *_doc, int _start) :
     QThread(parent),
     la(_la),
     doc(_doc),
-    start(_start)
+    START(_start)
 {
 }
 
@@ -14,17 +14,23 @@ void viewAdder::run()
 {
     if (doc)
     {
-        for (int i=1;i<doc->getPageCount()+1;i++)
+        for (int i=1;i<=doc->getPageCount();i++)
             this->addView(doc,i);
     }
-    this->exec();
+    //this->exec();
+}
+
+void viewAdder::Execute()
+{
+    start();
 }
 
 bool viewAdder::addView(Document *doc, int n)
 {
     if (doc)
     {
-        ViewWidget* view = new ViewWidget(this->getNewId(),this,doc,n);
+        //int t = n;
+        ViewWidget* view = new ViewWidget(this->getNewId(),0,doc,n);
         //ui->scrollAreaWidgetContents_2->children().append();
         la->addWidget(view);
         return true;
@@ -34,5 +40,5 @@ bool viewAdder::addView(Document *doc, int n)
 
 int viewAdder::getNewId()
 {
-    return this->start++;
+    return this->START++;
 }

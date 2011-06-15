@@ -1078,7 +1078,7 @@ bool KBookocr::isImg(QFileInfo inf)
 void KBookocr::on_pushButton_6_clicked()
 {
     //this->setVisibleScanOrFile(true);
-    Document* doc = this->openPath(QFileDialog::getOpenFileName());
+
     //doc->setPreviewSize(QSize(70,110));
     /*if (doc)
     {
@@ -1086,12 +1086,33 @@ void KBookocr::on_pushButton_6_clicked()
             this->addView(doc,i);
     }*/
     //if () TODO
+    if (this->adder)
+    {
+        QMessageBox::warning(this,"KBookOCR","waite untill last book is adding");
+        return ;
+    }
+
+    Document* doc = this->openPath(QFileDialog::getOpenFileName());
+
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
+    connect(this->adder,SIGNAL(finished()),this,SLOT(addFinished()));
     this->idCount += doc->getPageCount();
-    this->adder->run();
+    //this->adder->run();
+    //this->adder->start
+    this->adder->Execute();
+    //this->adder->start();
 
     //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
     //this->openFiles();
+}
+
+void KBookocr::addFinished()
+{
+    if (this->adder)
+    {
+        delete this->adder;
+        this->adder = 0;
+    }
 }
 
 bool KBookocr::isFileMode()

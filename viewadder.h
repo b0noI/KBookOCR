@@ -11,6 +11,7 @@ class viewAdder : public QThread
 public:
     explicit viewAdder(QObject*,QLayout*, Document*,int);
     void run();
+    void Execute();
     int getNewId();
 
 signals:
@@ -21,7 +22,7 @@ private:
     bool addView(Document* , int);
     QLayout* la;
     Document* doc;
-    int start;
+    int START;
 
 };
 

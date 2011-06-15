@@ -141,6 +141,8 @@ private slots:
     void on_pushButton_clicked();
     void on_label_view1_clicked();
     void on_pushButton_3_clicked();
+
+    void addFinished();
 };
 
 #endif // KBOOKOCR_H

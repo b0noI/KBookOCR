@@ -45,7 +45,7 @@ bool Document::setPreviewSize(const QSize &size)
 
 QImage Document::getPreview(int n)
 {
-    if (n > 0 && n < this->getPageCount())
+    if (n > 0 && n <= this->getPageCount())
     {
         return this->getPage(n).scaled(this->getPreviewSize());
         //return true;
