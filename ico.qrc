@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/ico">
+        <file>kbookocr.png</file>
+        <file>files/icons32/from_scanner.png</file>
+        <file>files/icons32/ocr_to_file.png</file>
+        <file>files/icons32/open_book.png</file>
+        <file>files/icons32/open_in_editor.png</file>
+        <file>files/ico/designkode-free-icons/delete.png</file>
+        <file>files/ico/designkode-free-icons/arrow-down.png</file>
+    </qresource>
+    <qresource prefix="/imgs">
+        <file>files/imgs/scanWait.jpeg</file>
+    </qresource>
+</RCC>
