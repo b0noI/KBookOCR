@@ -1,6 +1,8 @@
 #include "viewwidget.h"
 #include <QPixmap>
 #include <QIcon>
+#include <QFileDialog>
+#include <QMessageBox>
 #include "ui_viewwidget.h"
 
 /*ViewWidget::ViewWidget(int _id, QWidget *parent, QString path) :
@@ -58,8 +60,8 @@ bool ViewWidget::setImg(QImage img)
         QPixmap pm;
         pm = QPixmap::fromImage(img);
         QIcon ico(pm);
-        ui->label_view1->setIcon(ico);
-        ui->label_view1->setIconSize(size);
+        ui->label_view->setIcon(ico);
+        ui->label_view->setIconSize(size);
         return true;
     }
     return false;
@@ -97,6 +99,7 @@ bool ViewWidget::setPageNumber(int num)
     if (num > 0 && num != this->getPageNumber())
     {
         this->pageNumber = num;
+        ui->label->setText(QString::number(num));
         return true;
     }
     return false;
@@ -110,4 +113,22 @@ int ViewWidget::getPageNumber()
 void ViewWidget::on_label_view1_clicked()
 {
 
+}
+
+void ViewWidget::on_pushButton_4_clicked()
+{
+    QString path = QFileDialog::getSaveFileName();
+    if (!path.isEmpty())
+    {
+        this->getView().save(path);
+        QMessageBox::information(0,"KBookOCR","saved to: "+path);
+    }
+}
+
+void ViewWidget::on_label_view_clicked()
+{
+    if (ui->label_view->isChecked())
+    {
+        emit this->selected(this->get_Id());
+    }
 }

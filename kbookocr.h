@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QFileInfo>
+#include <KDE/KScanDialog>
+#include <kscan.h>
 
 #include "enum.h"
 #include "convertingtoimgwite.h"
@@ -40,11 +42,17 @@ public:
     // new
     bool openDoc(QString);
     // end new
+
+    int getPageCount();
 public slots:
     void addFinished();
     void doneProgress(int,int);
     void newViewAdd(ViewWidget*);
-    void newImgAdd(QImage);
+    void newImgAdd(QImage,int);
+    void deleteViewId(int);
+    void selectedViewId(int);
+    void pageCounChanged(int);
+    void scanComplete(const QImage&,int);
 
 private:
 
@@ -53,6 +61,8 @@ private:
     //KParts::Part::
     //Okular::KDocumenView
     // end new
+
+    KScanDialog* scanDialog;
 
     Ui::KBookocr *ui;
 
@@ -100,7 +110,7 @@ private:
     //QList<bool> pageChecked;
     //QList<int> makeListOfMarkedPages();
 
-    //QList<ViewWidget*> viewWidgets;
+    QList<ViewWidget*> viewWidgets;
     viewAdder* adder;
     Document* openPath(const QString&);
     bool isImg(QFileInfo);
@@ -121,7 +131,7 @@ private slots:
     void on_spinBox_valueChanged(int );
     void openOfficeOpen(int);
     void previewDJVUChanged(int);
-    void scanComplete(int);
+    //void scanComplete(int);
     void scanPreviewReady(int);
     void djvu2pdfReady(int);
 

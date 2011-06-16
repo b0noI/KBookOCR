@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QDialog>
+#include <QSpacerItem>
 
 #include "imgclass.h"
 #include "pdfdocument.h"
@@ -39,7 +40,14 @@ KBookocr::KBookocr(QWidget *parent) :
 
     //ui->verticalLayout->addWidget(this->currentDoc.widget());
 
-    ui->progressBar->setVisible(false);
+    //this->scanDialog = KScanDialog::getScanDialog( this );
+    //if (this->scanDialog)
+    //{
+    //    connect (this->scanDialog,SIGNAL(finalImage(QImage,int)),this,SLOT(scanComplete(QImage,int)));
+    //}
+
+    ui->groupBox->setVisible(false);
+    //ui->groupBox->
    // ui->label_11->setVisible(false);
 
     QSettings settings("KBookOCR", "snapShot");
@@ -84,6 +92,30 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->label_view4->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     */
 
+    //connect (this->viewWidgets,SIGNAL())
+}
+
+void KBookocr::selectedViewId(int id)
+{
+    for (int i=0;i<this->getPageCount();i++)
+        if (this->viewWidgets.at(i)->get_Id() == id)
+        {
+            ui->spinBox_3->setValue(i+1);
+            return;
+        }
+}
+
+void KBookocr::scanComplete(const QImage &img, int n)
+{
+    this->newImgAdd(img,n);
+}
+
+void KBookocr::pageCounChanged(int n)
+{
+    ui->spinBox_3->setMaximum(n);
+    ui->spinBox_3->setSuffix(" / "+QString::number(n));
+    for (int i=0;i<this->viewWidgets.count();i++)
+        this->viewWidgets[i]->setPageNumber(i+1);
 }
 
 int KBookocr::getNewId()
@@ -276,7 +308,7 @@ bool KBookocr::setPathToSave(const QString &path)
     }
     return false;
 }
-
+/*
 void KBookocr::scanComplete(int)
 {
     QString path, pathTo, base;
@@ -320,7 +352,7 @@ void KBookocr::scanComplete(int)
         ui->label_3->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 
      */
-}
+//}
 
 QString KBookocr::formImgFromPdf()
 {
@@ -645,7 +677,34 @@ bool KBookocr::clearPathToSave()
 
 void KBookocr::on_spinBox_3_valueChanged(int newValue)
 {
-    if (open && pdf)
+    if (newValue > 0 && newValue < this->getPageCount())
+    {
+        QImage image = //doc->page(newValue)->renderToImage(100,100);
+                this->viewWidgets.at(newValue - 1)->getView();
+        this->baseSize = image.size();
+        if (size.width() > 0)
+        {
+            this->setSize();
+            image = image.scaled(size);
+            //image = image.convertToFormat(QImage::Format_Mono);
+            //ui->label_3->setSizePolicy();
+            ui->label_3->setMaximumSize(size);
+            ui->label_3->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+
+        }
+        else
+        {
+            ui->label_3->setMaximumSize(image.size());
+        }
+
+        QPixmap pm;
+        //pm.convertFromImage(image);
+
+        pm = QPixmap::fromImage(image);
+        ui->label_3->setPixmap(pm);
+    }
+
+    /*if (open && pdf)
     {
     QImage image = doc->page(newValue)->renderToImage(100,100);
     this->baseSize = image.size();
@@ -694,11 +753,11 @@ void KBookocr::on_spinBox_3_valueChanged(int newValue)
         //openOfficeProcess->start(program);
 
     }
-*/
+*//*
     if (open)
     {
         this->currentPage = newValue;
-    }
+    }*/
 }
 
 void KBookocr::setSize()
@@ -1102,9 +1161,9 @@ void KBookocr::on_pushButton_6_clicked()
     connect(this->adder,SIGNAL(finished()),this,SLOT(addFinished()));
     connect(this->adder,SIGNAL(done(int,int)),this,SLOT(doneProgress(int,int)));
     connect(this->adder, SIGNAL(newViewReady(ViewWidget*)),this,SLOT(newViewAdd(ViewWidget*)));
-    connect(this->adder,SIGNAL(newImgDone(QImage)),this,SLOT(newImgAdd(QImage)));
+    connect(this->adder,SIGNAL(newImgDone(QImage,int)),this,SLOT(newImgAdd(QImage,int)));
 
-    ui->progressBar->setVisible(true);
+    ui->groupBox->setVisible(true);
    // ui->label_11->setVisible(true);
 
     this->idCount += doc->getPageCount();
@@ -1115,6 +1174,11 @@ void KBookocr::on_pushButton_6_clicked()
     }
     //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
     //this->openFiles();
+}
+
+int KBookocr::getPageCount()
+{
+    return this->viewWidgets.count();
 }
 
 void KBookocr::doneProgress(int all, int done)
@@ -1141,7 +1205,7 @@ void KBookocr::addFinished()
     }
 
 
-    ui->progressBar->setVisible(false);
+    ui->groupBox->setVisible(false);
     //ui->label_11->setVisible(false);
 }
 
@@ -1152,8 +1216,16 @@ bool KBookocr::isFileMode()
 
 void KBookocr::on_pushButton_7_clicked()
 {
-    this->setVisibleScanOrFile(false);
-    this->getScanPreview();
+    //this->setVisibleScanOrFile(false);
+    //this->getScanPreview();
+    if (!this->scanDialog)
+    {
+        QMessageBox::warning(this,"KBookOCR","There is no scan support in system");
+    }else
+    {
+        if (this->scanDialog->setup())
+            this->scanDialog->show();
+    }
 }
 
 void KBookocr::getScanPreview()
@@ -1401,15 +1473,50 @@ void KBookocr::setViewPanelVisible(bool vis)
 */
 void KBookocr::on_pushButton_clicked()
 {
-    //while (this->pageChecked.contains(true))
-      //  this->pageChecked[this->pageChecked.indexOf(true)] = false;
-    //this->refreshViewPanel();
+    //for (int i=0;i<ui->verticalLayout_10->`;i++)
+         //ui->verticalLayout_10->children().at(i)->
+      //  ui->verticalLayout_10->removeWidget(ui->verticalLayout_10->removeItem());
+    //ui->verticalLayout_10->count()
+
+    /*QLayoutItem *child;
+    while ((child = ui->verticalLayout_10->takeAt(1)) != 0)
+    {
+    delete child->widget();
+    delete child;
+
+}*/
+    for (int i=0;i<this->viewWidgets.count();i++)
+        delete this->viewWidgets[i];
+    this->viewWidgets.clear();
+    this->pageCounChanged(this->getPageCount());
+    //ui->verticalLayout_10->addWidget(new QSpacerItem());
+    //ui->verticalLayout_10->addSpacing();
+
 }
 
-void KBookocr::newImgAdd(QImage img)
+void KBookocr::deleteViewId(int id)
 {
-    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,1);
+    for (int i=0;i<this->viewWidgets.count();i++)
+        if (this->viewWidgets.at(i)->get_Id() == id)
+        {
+            delete this->viewWidgets[i];
+            this->viewWidgets.removeAt(i);
+            i--;
+        }
+    this->pageCounChanged(this->getPageCount());
+}
+
+void KBookocr::newImgAdd(QImage img, int n)
+{
+
+    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,n);
+    connect (view, SIGNAL(deleted(int)),this,SLOT(deleteViewId(int)));
+    connect (view,SIGNAL(selected(int)),this,SLOT(selectedViewId(int)));
     ui->verticalLayout_10->addWidget(view);
+    this->viewWidgets << view;
+    this->pageCounChanged(this->getPageCount());
+    if (ui->spinBox_3->value() == 0)
+        ui->spinBox_3->setValue(1);
 }
 
 void KBookocr::newViewAdd(ViewWidget *view)
@@ -1430,6 +1537,11 @@ void KBookocr::on_label_view1_clicked()
 
 void KBookocr::on_pushButton_3_clicked()
 {
-    this->load();
+    //this->load();
+    this->adder->terminate();
+    delete this->adder;
+    this->adder = 0;
+    ui->groupBox->setVisible(false);
+    this->pageCounChanged(this->getPageCount());
     //ui->pushButton_3->setVisible(false);
 }

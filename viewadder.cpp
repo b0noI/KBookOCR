@@ -17,7 +17,8 @@ void viewAdder::run()
         for (int i=1;i<=doc->getPageCount();i++)
         {
             emit this->done(doc->getPageCount(),i);
-            this->addView(doc,i);
+            //this->addView(doc,i);
+            emit this->newImgDone(doc->getPage(i),i);
         }
     }
     //exec();
@@ -31,7 +32,7 @@ void viewAdder::Execute()
 
 bool viewAdder::addView(Document *doc, int n)
 {
-    emit this->newImgDone(doc->getPage(n));
+    //emit this->newImgDone(doc->getPage(n));
     return true;
     //````
     if (doc)

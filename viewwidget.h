@@ -24,11 +24,16 @@ public:
 
 signals:
     void deleted(int);
+    void selected(int);
 
 private slots:
     void on_pushButton_clicked();
 
     void on_label_view1_clicked();
+
+    void on_pushButton_4_clicked();
+
+    void on_label_view_clicked();
 
 private:
     Ui::ViewWidget *ui;
