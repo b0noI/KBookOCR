@@ -15,9 +15,10 @@ class ViewWidget : public QWidget, public View
 public:
     //explicit ViewWidget(int, QWidget *parent, QString);
     explicit ViewWidget(int, QWidget *parent, Document*, int);
+    explicit ViewWidget(int, QWidget *parent, QImage, int);
     ~ViewWidget();
-    bool setId(int);
-    int getId();
+    bool set_Id(int);
+    int get_Id();
     bool setPageNumber(int);
     int getPageNumber();
 
@@ -31,7 +32,7 @@ private slots:
 
 private:
     Ui::ViewWidget *ui;
-    int id;
+    int __ID;
     int pageNumber;
     bool setImg(QImage);
     bool setImg();

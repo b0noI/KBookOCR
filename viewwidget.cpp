@@ -15,16 +15,34 @@
     this->setImg();
 }*/
 
+ViewWidget::ViewWidget(int _id, QWidget *parent, QImage img, int n) :
+    QWidget(parent),
+    ui(new Ui::ViewWidget),
+    pageNumber(-1),
+    View(img)
+{
+
+    ui->setupUi(this);
+    ui->label->setText(QString::number(n));
+    this->set_Id(_id);
+    this->setImg(img);
+    //this->setImg()
+
+}
+
 ViewWidget::ViewWidget(int _id, QWidget *parent, Document *doc, int n) :
     QWidget(parent),
     ui(new Ui::ViewWidget),
     pageNumber(-1),
     View(doc, n)
 {
+
     ui->setupUi(this);
     ui->label->setText(QString::number(n));
-    this->setId(_id);
+    this->set_Id(_id);
     this->setImg(doc->getPreview(n));
+    //this->setImg()
+
 }
 
 ViewWidget::~ViewWidget()
@@ -47,21 +65,23 @@ bool ViewWidget::setImg(QImage img)
     return false;
 }
 
+//int ViewWidget::
+
 bool ViewWidget::setImg()
 {
     return this->setImg(this->getView());
 }
 
-int ViewWidget::getId()
+int ViewWidget::get_Id()
 {
-    return this->id;
+    return this->__ID;
 }
 
-bool ViewWidget::setId(int id)
+bool ViewWidget::set_Id(int id)
 {
     if (id > 0)
     {
-        this->id = id;
+        this->__ID = id;
         return true;
     }
     return false;
@@ -69,7 +89,7 @@ bool ViewWidget::setId(int id)
 
 void ViewWidget::on_pushButton_clicked()
 {
-    emit this->deleted(this->getId());
+    emit this->deleted(this->get_Id());
 }
 
 bool ViewWidget::setPageNumber(int num)

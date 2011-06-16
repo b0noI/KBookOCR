@@ -7,7 +7,7 @@
 
 #include "enum.h"
 #include "convertingtoimgwite.h"
-//#include "viewwidget.h"
+#include "viewwidget.h"
 #include "viewadder.h"
 
 // #include <poppler/PDFDoc.h>
@@ -40,6 +40,11 @@ public:
     // new
     bool openDoc(QString);
     // end new
+public slots:
+    void addFinished();
+    void doneProgress(int,int);
+    void newViewAdd(ViewWidget*);
+    void newImgAdd(QImage);
 
 private:
 
@@ -142,7 +147,7 @@ private slots:
     void on_label_view1_clicked();
     void on_pushButton_3_clicked();
 
-    void addFinished();
+
 };
 
 #endif // KBOOKOCR_H

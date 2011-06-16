@@ -39,6 +39,9 @@ KBookocr::KBookocr(QWidget *parent) :
 
     //ui->verticalLayout->addWidget(this->currentDoc.widget());
 
+    ui->progressBar->setVisible(false);
+   // ui->label_11->setVisible(false);
+
     QSettings settings("KBookOCR", "snapShot");
     //if (settings.allKeys().contains("load"))
     //{
@@ -1093,26 +1096,53 @@ void KBookocr::on_pushButton_6_clicked()
     }
 
     Document* doc = this->openPath(QFileDialog::getOpenFileName());
-
+    if (doc)
+    {
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
     connect(this->adder,SIGNAL(finished()),this,SLOT(addFinished()));
+    connect(this->adder,SIGNAL(done(int,int)),this,SLOT(doneProgress(int,int)));
+    connect(this->adder, SIGNAL(newViewReady(ViewWidget*)),this,SLOT(newViewAdd(ViewWidget*)));
+    connect(this->adder,SIGNAL(newImgDone(QImage)),this,SLOT(newImgAdd(QImage)));
+
+    ui->progressBar->setVisible(true);
+   // ui->label_11->setVisible(true);
+
     this->idCount += doc->getPageCount();
     //this->adder->run();
     //this->adder->start
     this->adder->Execute();
     //this->adder->start();
-
+    }
     //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
     //this->openFiles();
 }
 
+void KBookocr::doneProgress(int all, int done)
+{
+    done = (done*100)/all;
+    ui->progressBar->setValue(done);
+}
+
 void KBookocr::addFinished()
 {
+
+
     if (this->adder)
     {
+
+        //for (int i=0;i<this->adder->getWidgetCount();i++)
+          //  ui->verticalLayout_10->addWidget(this->adder->getWidgetAt(i));
+
+        //this->update();
+
         delete this->adder;
         this->adder = 0;
+        //this->idCount += doc->getPageCount();
     }
+
+
+    ui->progressBar->setVisible(false);
+    //ui->label_11->setVisible(false);
 }
 
 bool KBookocr::isFileMode()
@@ -1374,6 +1404,23 @@ void KBookocr::on_pushButton_clicked()
     //while (this->pageChecked.contains(true))
       //  this->pageChecked[this->pageChecked.indexOf(true)] = false;
     //this->refreshViewPanel();
+}
+
+void KBookocr::newImgAdd(QImage img)
+{
+    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,1);
+    ui->verticalLayout_10->addWidget(view);
+}
+
+void KBookocr::newViewAdd(ViewWidget *view)
+{
+    //QLayout* la = ui->verticalLayout_10;
+    ui->verticalLayout_10->addWidget(view);
+
+    //ViewWidget* test = new ViewWidget(0,this,this->openPath("/home/b0noi/tmp/1.png"),1);
+    //ui->verticalLayout_10->addWidget(test);
+    //ui->verticalLayout_10->
+    //view->show();
 }
 
 void KBookocr::on_label_view1_clicked()

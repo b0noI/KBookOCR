@@ -48,6 +48,7 @@ QImage Document::getPreview(int n)
     if (n > 0 && n <= this->getPageCount())
     {
         return this->getPage(n).scaled(this->getPreviewSize());
+        return this->getPage(n).scaled(this->getPreviewSize());
         //return true;
     }
     return QImage();

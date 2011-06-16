@@ -11,9 +11,10 @@ class View
 public:
     //View(QString);
     View(Document*, int);
+    View(QImage);
     QImage getView();
     QImage getPreview(QSize);
-    //bool setView(const QImage&);
+    bool setView(const QImage&);
 
 private:
     QImage img;

@@ -1,4 +1,5 @@
 #include "view.h"
+#include "imgclass.h"
 #include <QFileInfo>
 /*
 View::View(QString path)
@@ -18,7 +19,7 @@ View::View(QString path)
         //emit this->ready;
     }
 }
-*//*
+*/
 bool View::setView(const QImage &img)
 {
     if (img != this->getView() &&
@@ -31,7 +32,13 @@ bool View::setView(const QImage &img)
     }
     return false;
 }
-*/
+
+View::View(QImage img)
+{
+    this->setView(img);
+    this->doc = new imgClass(img);
+}
+
 View::View(Document *doc, int n) :
     doc(0),
     page(n)
@@ -39,7 +46,7 @@ View::View(Document *doc, int n) :
     if (doc->isOpened() && doc->getPageCount()+1 > n && n > 0)
     {
         this->doc = doc;
-        //this->setView(doc->getPage(n));
+        this->setView(doc->getPage(n));
         //connect(doc,SIGNAL(pageIsReady(QImage)),this,SLOT(imgForViewReady(QImage)));
     }
 }
@@ -57,11 +64,12 @@ void View::imgForViewReady(QImage img)
 QImage View::getView()
 {
     //doc->getPreview()
-    return this->doc->getPage(this->page);
+    //return this->doc->getPage(this->page);
+    return this->img;
 }
 
 QImage View::getPreview(QSize size)
 {
-    //return this->getView().scaled(size);
-    return this->doc->getPreview(this->page);
+    return this->getView().scaled(size);
+    //return this->doc->getPreview(this->page);
 }

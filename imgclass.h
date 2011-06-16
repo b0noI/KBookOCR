@@ -9,6 +9,7 @@ class imgClass : public Document
 {
 public:
     imgClass(QString);
+    imgClass(QImage);
     QImage getPage(int);
     int getPageCount();
     QString getFormat();

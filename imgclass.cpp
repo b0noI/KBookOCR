@@ -7,6 +7,13 @@ imgClass::imgClass(QString path)
     this->ready = false;
     this->open(path);
 }
+
+imgClass::imgClass(QImage img)
+{
+    this->img = img;
+    this->ready = true;
+}
+
 /*
 virtual QImage getPage(int) = 0;
 virtual int getPageCount() = 0;
