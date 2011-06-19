@@ -15,6 +15,8 @@ public:
     QString getFormat();
     bool open(QString);
     bool close();
+    bool saveImg(QString, int);
+    QImage getRealPage(int);
 private:
     QImage img;
 };

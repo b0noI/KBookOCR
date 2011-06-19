@@ -49,7 +49,7 @@ public slots:
     void addFinished();
     void doneProgress(int,int);
     void newViewAdd(ViewWidget*);
-    void newImgAdd(QImage,int);
+    void newImgAdd(QImage,int,Document*);
     void deleteViewId(int);
     void selectedViewId(int);
     void pageCounChanged(int);

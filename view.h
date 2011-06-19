@@ -11,15 +11,19 @@ class View
 public:
     //View(QString);
     View(Document*, int);
-    View(QImage);
+    View(QImage, Document*, int);
     QImage getView();
     QImage getPreview(QSize);
     bool setView(const QImage&);
 
-private:
-    QImage img;
+protected:
     Document* doc;
     int page;
+    int realPage;
+
+private:
+    QImage img;
+
     //QSize previewSize();
 
 

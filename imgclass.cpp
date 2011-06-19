@@ -14,6 +14,23 @@ imgClass::imgClass(QImage img)
     this->ready = true;
 }
 
+QImage imgClass::getRealPage(int n=1)
+{
+    if (n == 1)
+        return this->getPage(n);
+    return QImage();
+}
+
+bool imgClass::saveImg(QString path, int n=1)
+{
+    if (!path.isEmpty())
+    {
+        this->getPage(n).save(path);
+        return true;
+    }
+    return false;
+}
+
 /*
 virtual QImage getPage(int) = 0;
 virtual int getPageCount() = 0;

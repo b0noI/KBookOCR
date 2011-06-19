@@ -52,9 +52,9 @@ KBookocr::KBookocr(QWidget *parent) :
 
     ui->groupBox->setVisible(false);
     //ui->groupBox->
-   // ui->label_11->setVisible(false);
+    //ui->label_11->setVisible(false);
 
-    QSettings settings("KBookOCR", "snapShot");
+    //QSettings settings("KBookOCR", "snapShot");
     //if (settings.allKeys().contains("load"))
     //{
         //QDialog dialog();
@@ -112,7 +112,7 @@ void KBookocr::selectedViewId(int id)
 
 void KBookocr::scanComplete(const QImage &img, int n)
 {
-    this->newImgAdd(img,n);
+    //this->newImgAdd(img,n);
 }
 
 void KBookocr::pageCounChanged(int n)
@@ -984,7 +984,7 @@ QList<int> KBookocr::makeListOfMarkedPages()
 */
 QString KBookocr::getVersion()
 {
-    return "2.0 beta";
+    return "2.0 alpha";
 }
 
 void KBookocr::on_pushButton_5_clicked()
@@ -1227,14 +1227,14 @@ void KBookocr::on_pushButton_6_clicked()
         return ;
     }
 
-    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","Book (*.pdf);;Images (*.jpg, *.jpeg, *.bmp, *.png, *.gif)"));
+    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","Book (*.pdf);;Images (*.jpg, *.jpeg, *.bmp, *.png, *.gif);;All (*.jpg, *.jpeg, *.bmp, *.png, *.gif, *.pdf)"));
     if (doc)
     {
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
     connect(this->adder,SIGNAL(finished()),this,SLOT(addFinished()));
     connect(this->adder,SIGNAL(done(int,int)),this,SLOT(doneProgress(int,int)));
     connect(this->adder, SIGNAL(newViewReady(ViewWidget*)),this,SLOT(newViewAdd(ViewWidget*)));
-    connect(this->adder,SIGNAL(newImgDone(QImage,int)),this,SLOT(newImgAdd(QImage,int)));
+    connect(this->adder,SIGNAL(newImgDone(QImage,int,Document*)),this,SLOT(newImgAdd(QImage,int,Document*)));
 
     ui->groupBox->setVisible(true);
    // ui->label_11->setVisible(true);
@@ -1742,10 +1742,10 @@ void KBookocr::deleteViewId(int id)
     this->pageCounChanged(this->getPageCount());
 }
 
-void KBookocr::newImgAdd(QImage img, int n)
+void KBookocr::newImgAdd(QImage img, int n, Document* doc)
 {
 
-    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,n);
+    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,n,doc,n);
     connect (view, SIGNAL(deleted(int)),this,SLOT(deleteViewId(int)));
     connect (view,SIGNAL(selected(int)),this,SLOT(selectedViewId(int)));
     ui->verticalLayout_10->addWidget(view);

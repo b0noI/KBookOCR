@@ -33,20 +33,29 @@ bool View::setView(const QImage &img)
     return false;
 }
 
-View::View(QImage img)
+View::View(QImage img, Document* doc, int page)
 {
     this->setView(img);
-    this->doc = new imgClass(img);
+    //this->doc = new imgClass(img);
+    this->doc = doc;
+    this->realPage = page;
 }
 
 View::View(Document *doc, int n) :
     doc(0),
-    page(n)
+    page(n),
+    realPage(n)
 {
     if (doc->isOpened() && doc->getPageCount()+1 > n && n > 0)
     {
         this->doc = doc;
         this->setView(doc->getPage(n));
+
+        //doc->getRealPage(n).save("/tmp/1.jpg");
+        //this->doc->page(n)->renderToImage(
+          //                  doc->page(n)->pageSize().width()
+            //                ,doc->page(n)->pageSize().height());
+
         //connect(doc,SIGNAL(pageIsReady(QImage)),this,SLOT(imgForViewReady(QImage)));
     }
 }
@@ -66,6 +75,7 @@ QImage View::getView()
     //doc->getPreview()
     //return this->doc->getPage(this->page);
     return this->img;
+
 }
 
 QImage View::getPreview(QSize size)

@@ -21,7 +21,7 @@ public:
 signals:
     void done(int,int);
     void newViewReady(ViewWidget*);
-    void newImgDone(QImage,int);
+    void newImgDone(QImage,int, Document*);
 
 public slots:
 

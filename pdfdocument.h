@@ -10,10 +10,12 @@ public:
     pdfDocument(QString);
     bool open(QString);
     QImage getPage(int);
+    QImage getRealPage(int);
     int getPageCount();
     QString getFormat();
     QImage getPreview(int n);
     bool close();
+    //bool saveImg(QString, int);
     ~pdfDocument();
 private:
     Poppler::Document *doc;

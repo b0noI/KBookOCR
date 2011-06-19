@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     pdfdocument.cpp \
     imgclass.cpp \
     viewadder.cpp \
-    ocrthread.cpp
+    ocrthread.cpp \
+    scanerdialog.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -32,11 +33,13 @@ HEADERS  += kbookocr.h \
     pdfdocument.h \
     imgclass.h \
     viewadder.h \
-    ocrthread.h
+    ocrthread.h \
+    scanerdialog.h
 
 FORMS    += kbookocr.ui \
     convertingtoimgwite.ui \
-    viewwidget.ui
+    viewwidget.ui \
+    scanerdialog.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4

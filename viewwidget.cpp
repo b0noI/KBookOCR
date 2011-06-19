@@ -17,11 +17,11 @@
     this->setImg();
 }*/
 
-ViewWidget::ViewWidget(int _id, QWidget *parent, QImage img, int n) :
+ViewWidget::ViewWidget(int _id, QWidget *parent, QImage img, int n, Document* doc,int n2) :
     QWidget(parent),
     ui(new Ui::ViewWidget),
     pageNumber(-1),
-    View(img)
+    View(img,doc,n2)
 {
 
     ui->setupUi(this);
@@ -61,7 +61,10 @@ bool ViewWidget::saveImg(QString path)
 {
     if (this->getView().width() > 20)
     {
-        this->getView().save(path);
+        //this->getView().save(path);
+        this->doc->getRealPage(this->realPage).save(path);
+        //QImage img = this->doc->getRealPage(this->realPage);
+        //img.save(path);
         return true;
     }
     return false;
@@ -71,7 +74,7 @@ bool ViewWidget::setImg(QImage img)
 {
     if (img.width() > 50 && img.height() > 50)
     {
-        QSize size(70,110);
+        QSize size(79,110);
         QPixmap pm;
         pm = QPixmap::fromImage(img);
         QIcon ico(pm);

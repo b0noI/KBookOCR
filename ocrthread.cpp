@@ -189,7 +189,7 @@ void OCRThread::nextTXTOCR(QString path)
         this->OCRProccess = new QProcess(this);
         connect (this->OCRProccess,SIGNAL(finished(int)),this,SLOT(txtReady(int)));
         //connect (this->OCRProccess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(txtReady(int)));
-        connect (this->OCRProccess,SIGNAL(aboutToClose()),this,SLOT(txtReady(int)));
+        //connect (this->OCRProccess,SIGNAL(aboutToClose()),this,SLOT(txtReady(int)));
         //connect (this->OCRProccess, SIGNAL(error(QProcess::ProcessError)),)
 
         //if (!this->saveToFile)

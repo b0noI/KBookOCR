@@ -15,7 +15,7 @@ class ViewWidget : public QWidget, public View
 public:
     //explicit ViewWidget(int, QWidget *parent, QString);
     explicit ViewWidget(int, QWidget *parent, Document*, int);
-    explicit ViewWidget(int, QWidget *parent, QImage, int);
+    explicit ViewWidget(int, QWidget *parent, QImage, int, Document*, int);
     ~ViewWidget();
     bool set_Id(int);
     int get_Id();

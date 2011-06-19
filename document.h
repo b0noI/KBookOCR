@@ -13,9 +13,11 @@ class Document : public QObject
 public:
     Document();
     virtual QImage getPage(int) = 0;
+    virtual QImage getRealPage(int) = 0;
     virtual int getPageCount() = 0;
     virtual QString getFormat() = 0;
     virtual bool open(QString) = 0;
+    //virtual bool saveImg(QString, int) = 0;
     virtual bool close() = 0;
     QString getPath();
     bool setPath(const QString&);

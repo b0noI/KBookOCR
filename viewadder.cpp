@@ -14,11 +14,11 @@ void viewAdder::run()
 {
     if (doc)
     {
-        for (int i=1;i<=doc->getPageCount();i++)
+        for (int i=0;i<doc->getPageCount();i++)
         {
             emit this->done(doc->getPageCount(),i);
             //this->addView(doc,i);
-            emit this->newImgDone(doc->getPage(i),i);
+            emit this->newImgDone(doc->getPage(i),i,doc);
         }
     }
     //exec();
