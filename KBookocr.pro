@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     djvudocument.cpp \
     pdfdocument.cpp \
     imgclass.cpp \
-    viewadder.cpp
+    viewadder.cpp \
+    ocrthread.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -30,7 +31,8 @@ HEADERS  += kbookocr.h \
     djvudocument.h \
     pdfdocument.h \
     imgclass.h \
-    viewadder.h
+    viewadder.h \
+    ocrthread.h
 
 FORMS    += kbookocr.ui \
     convertingtoimgwite.ui \

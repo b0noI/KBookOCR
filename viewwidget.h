@@ -21,6 +21,8 @@ public:
     int get_Id();
     bool setPageNumber(int);
     int getPageNumber();
+    bool isChecked();
+    bool saveImg(QString);
 
 signals:
     void deleted(int);

@@ -30,13 +30,17 @@ KBookocr::KBookocr(QWidget *parent) :
     saveToFile(false),
     outFormat(RTF),
     idCount(0),
-    adder(0)
+    adder(0),
+    OCR(0)
     //currentDoc(this)
 {
 
 
 
     ui->setupUi(this);
+
+    ui->groupBox_4->setVisible(false);
+    ui->groupBox_5->setVisible(false);
 
     //ui->verticalLayout->addWidget(this->currentDoc.widget());
 
@@ -73,7 +77,7 @@ KBookocr::KBookocr(QWidget *parent) :
 
     size.setWidth(0);
 
-    ui->radioButton_7->setVisible(false);
+    //ui->radioButton_7->setVisible(false);
 
     this->setVisibleScanOrFile(false);
 
@@ -101,6 +105,7 @@ void KBookocr::selectedViewId(int id)
         if (this->viewWidgets.at(i)->get_Id() == id)
         {
             ui->spinBox_3->setValue(i+1);
+            ui->radioButton_3->setChecked(true);
             return;
         }
 }
@@ -178,6 +183,9 @@ KBookocr::~KBookocr()
 
     if (this->adder)
         delete this->adder;
+
+    if (this->OCR)
+        delete this->OCR;
 
     delete ui;
 }
@@ -287,7 +295,7 @@ bool KBookocr::setOutFormat(OUT_FORMAT format)
 bool KBookocr::setPathToSave()
 {
     QString tmp;
-    tmp = QFileDialog::getSaveFileName();
+    tmp = QFileDialog::getSaveFileName(this,"Save file", "~", ui->checkBox->isChecked() ? "HTML (*.html)" : "TXT (*.txt)");
     if (tmp.isEmpty())
         return false;
     this->pathToSave = tmp;
@@ -367,7 +375,8 @@ QString KBookocr::formImgFromPdf()
         QDir dir;
         if (dir.exists(dirPath))
         {
-            dir.rmdir(dirPath);
+           // dir.rmdir(dirPath);
+            this->removeDir(dirPath);
         }
         dir.mkdir(dirPath);
         //dirPath =
@@ -677,14 +686,16 @@ bool KBookocr::clearPathToSave()
 
 void KBookocr::on_spinBox_3_valueChanged(int newValue)
 {
-    if (newValue > 0 && newValue < this->getPageCount())
+    if (newValue > 0 && newValue <= this->getPageCount())
     {
+        this->currentPage = newValue;
         QImage image = //doc->page(newValue)->renderToImage(100,100);
                 this->viewWidgets.at(newValue - 1)->getView();
         this->baseSize = image.size();
+        this->setSize();
         if (size.width() > 0)
         {
-            this->setSize();
+
             image = image.scaled(size);
             //image = image.convertToFormat(QImage::Format_Mono);
             //ui->label_3->setSizePolicy();
@@ -762,6 +773,7 @@ void KBookocr::on_spinBox_3_valueChanged(int newValue)
 
 void KBookocr::setSize()
 {
+    /*
     if (ui->radioButton_7->isChecked())
     {
 
@@ -770,6 +782,7 @@ void KBookocr::setSize()
         //ui->label_3->setMaximumSize(size);
 
     }
+    */
 
     if (ui->radioButton_6->isChecked())
     {
@@ -779,10 +792,15 @@ void KBookocr::setSize()
 
     }
 
+    if (ui->radioButton_5->isChecked())
+    {
+        this->size.setWidth(0);
+    }
+
     if (ui->radioButton_8->isChecked())
     {
-        this->size.setHeight(this->baseSize.height()- this->baseSize.height()/(ui->horizontalSlider->value()/2));
-        this->size.setWidth(this->baseSize.width()- this->baseSize.width()/(ui->horizontalSlider->value()/2));
+        this->size.setHeight(this->baseSize.height()- (double)this->baseSize.height()/((double)ui->horizontalSlider->value()/(double)2));
+        this->size.setWidth(this->baseSize.width()- (double)this->baseSize.width()/((double)ui->horizontalSlider->value()/(double)2));
     }
 }
 
@@ -795,9 +813,11 @@ void KBookocr::previewDJVUChanged(int)
 
     this->baseSize = image.size();
 
+    this->setSize();
+
     if (size.width() > 0)
     {
-        this->setSize();
+
         image = image.scaled(size);
         //ui->label_3->setSizePolicy();
         ui->label_3->setMaximumSize(size);
@@ -826,7 +846,6 @@ void KBookocr::on_radioButton_5_clicked() //set native size
 {
     size.setWidth(0);
     ui->label_3->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-
     this->on_spinBox_3_valueChanged(this->currentPage);
 }
 
@@ -863,17 +882,71 @@ void KBookocr::on_spinBox_2_valueChanged(int newValue)
 
 void KBookocr::on_horizontalSlider_valueChanged(int)
 {
-    if (!ui->radioButton_2->isChecked())
-        ui->radioButton_2->setChecked(true);
+    if (!ui->radioButton_8->isChecked())
+        ui->radioButton_8->setChecked(true);
+
+    this->on_spinBox_3_valueChanged(this->currentPage);
+}
+
+void KBookocr::OCRComplete(QString path)
+{
+    ui->groupBox_4->setVisible(false);
+    if (this->isFileMode())
+    {
+        QFile in(path);
+
+        //QDir del(path);
+        QString pathTo = this->getPathToSave();
+        //del.rmpath()
+        QFile out(this->getPathToSave());
+        out.remove();
+
+        in.copy(path, pathTo);
+        QMessageBox::information(this,"KBookOCR", "txt file: "+this->getPathToSave());
+        this->clearWorkDir();
+        /*if (this->OCR)
+        {
+            delete this->OCR;
+            this->OCR = 0;
+        }*/
+    }
+    else
+    {
+        QString program = "ooffice";// -writer " + ui->lineEdit->text();
+
+        QStringList args;
+        args.clear();
+        args.append("-writer");
+        args.append(path);
+
+        openOfficeProcess  = new QProcess(this);
+        openOfficeProcess->start(program,args);
+        //OO
+
+        // LO
+        program = "lowriter";// -writer " + ui->lineEdit->text();
+
+        //QStringList args;
+        args.clear();
+        //args.append("-writer");
+        args.append(path);
+
+        this->libreOfficeProcess  = new QProcess(this);
+        this->libreOfficeProcess->start(program,args);
+        //LO
+        this->clearPathToSave();
+    }
 }
 
 void KBookocr::on_pushButton_4_clicked()
 {
-    //ui->lineEdit_3->setText(QFileDialog::getSaveFileName());
-    //if (!ui->radioButton_10->isChecked())
-    //{
-      //  ui->radioButton_10->setChecked(true);
-    //}
+    if (this->OCR)
+    {
+        this->OCR->terminate();
+        delete this->OCR;
+        this->OCR = 0;
+    }
+    ui->groupBox_4->setVisible(false);
 }
 
 void KBookocr::on_horizontalSlider_sliderReleased()
@@ -1154,7 +1227,7 @@ void KBookocr::on_pushButton_6_clicked()
         return ;
     }
 
-    Document* doc = this->openPath(QFileDialog::getOpenFileName());
+    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","Book (*.pdf);;Images (*.jpg, *.jpeg, *.bmp, *.png, *.gif)"));
     if (doc)
     {
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
@@ -1174,6 +1247,30 @@ void KBookocr::on_pushButton_6_clicked()
     }
     //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
     //this->openFiles();
+}
+
+bool KBookocr::removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            }
+            else {
+                result = QFile::remove(info.absoluteFilePath());
+            }
+
+            if (!result) {
+                return result;
+            }
+        }
+        result = dir.rmdir(dirName);
+    }
+
+    return result;
 }
 
 int KBookocr::getPageCount()
@@ -1211,21 +1308,22 @@ void KBookocr::addFinished()
 
 bool KBookocr::isFileMode()
 {
-    return ui->radioButton->isVisible();
+    //return ui->radioButton->isVisible();
+    return this->saveToFile;
 }
 
 void KBookocr::on_pushButton_7_clicked()
 {
     //this->setVisibleScanOrFile(false);
     //this->getScanPreview();
-    if (!this->scanDialog)
+    /*if (!this->scanDialog)
     {
         QMessageBox::warning(this,"KBookOCR","There is no scan support in system");
     }else
     {
         if (this->scanDialog->setup())
             this->scanDialog->show();
-    }
+    }*/
 }
 
 void KBookocr::getScanPreview()
@@ -1270,14 +1368,152 @@ void KBookocr::scanPreviewReady(int)
 void KBookocr::on_pushButton_2_clicked()
 {
     this->saveToFile = true;
-    this->setPathToSave();
-    this->start();
+    if (this->setPathToSave())
+    {
+        this->clearWorkDir();
+
+        if (this->saveImages())
+        {
+            if (this->OCR)
+                delete this->OCR;
+
+            this->OCR = new OCRThread(this,this->getWorkDir(),ui->comboBox->currentText(),ui->checkBox->isChecked());
+            connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
+            connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
+            this->OCR->start();
+
+            return ;
+        }
+    }
+    QMessageBox::warning(this,"KBookOCR", "files error");
+    /*this->start();*/
+}
+
+bool KBookocr::saveImages()
+{
+    if (ui->radioButton->isChecked())
+       return this->saveAllImages();
+
+    if (ui->radioButton_2->isChecked())
+        return this->saveImages(ui->spinBox->value(),ui->spinBox_2->value());
+
+    if (ui->radioButton_3->isChecked())
+            return this->saveManualImages();
+}
+
+bool KBookocr::saveAllImages()
+{
+    if (this->viewWidgets.count() > 0)
+    {
+        ui->groupBox_5->setVisible(true);
+        double countAll = this->viewWidgets.count(), count = 0;
+        ViewWidget* view;
+        foreach (view, this->viewWidgets)
+        {
+            count ++;
+            view->saveImg(this->getWorkDir()+
+                          QString::number(view->get_Id())
+                          + ".kbookocr.jpg");
+            ui->progressBar_3->setValue((count*100)/countAll);
+        }
+        ui->groupBox_5->setVisible(false);
+        return true;
+    }
+    return false;
+}
+
+bool KBookocr::saveManualImages()
+{
+    if (this->viewWidgets.count() > 0)
+    {
+        ui->groupBox_5->setVisible(true);
+
+        double countAll = 0, count = 0;
+        ViewWidget* view;
+        foreach (view, this->viewWidgets)
+            if (view->isChecked())
+                countAll++;
+
+        //ViewWidget* view;
+        if (countAll > 0)
+        foreach (view, this->viewWidgets)
+        {
+            if (view->isChecked())
+                view->saveImg(this->getWorkDir()+
+                          QString::number(view->get_Id())
+                          + ".kbookocr.jpg");
+            count ++;
+            ui->progressBar_3->setValue((count*100)/countAll);
+        }
+
+        ui->groupBox_5->setVisible(false);
+        return true;
+    }
+    return false;
+}
+
+bool KBookocr::saveImages(int n1, int n2)
+{
+    if (n2 >= n1 && n2 <= this->viewWidgets.count()
+            && n1 > 0)
+    {
+        ui->groupBox_5->setVisible(true);
+        double countAll = n2 - n1 + 1,count = 0;
+        if (countAll > 0)
+        {
+        for (int i=n1-1;i<n2-1;i++)
+            this->viewWidgets.at(i)->saveImg(this->getWorkDir()+
+                          QString::number(this->viewWidgets.at(i)->get_Id())
+                          + ".kbookocr.jpg");
+        count ++;
+        ui->progressBar_3->setValue((count*100)/countAll);
+        }
+
+        ui->groupBox_5->setVisible(false);
+        return true;
+    }
+
+    return false;
+}
+
+bool KBookocr::clearWorkDir()
+{
+    QString path = this->getWorkDir();
+    //QDir dir(path);
+    //dir.rmpath(path);
+    return this->removeDir(path);
+    //return true;
+}
+
+QString KBookocr::getWorkDir()
+{
+    QString dirPath = QDir::tempPath() + QDir::separator() + "KBookOCR.tmp" + QDir::separator();
+    QDir dir(dirPath);
+    if (!dir.exists())
+        dir.mkdir(dirPath);
+    return dirPath;
 }
 
 void KBookocr::on_pushButton_8_clicked()
 {
     this->saveToFile = false;
-    this->start();
+    //this->start();
+    this->clearWorkDir();
+
+    if (this->saveImages())
+    {
+        if (this->OCR)
+            delete this->OCR;
+
+        this->OCR = new OCRThread(this,this->getWorkDir(),ui->comboBox->currentText(),ui->checkBox->isChecked());
+        connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
+        connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
+        this->OCR->start();
+
+        return ;
+    }
+
+QMessageBox::warning(this,"KBookOCR", "OCR error");
 }
 
 void KBookocr::on_spinBox_2_editingFinished()
@@ -1544,4 +1780,21 @@ void KBookocr::on_pushButton_3_clicked()
     ui->groupBox->setVisible(false);
     this->pageCounChanged(this->getPageCount());
     //ui->pushButton_3->setVisible(false);
+}
+
+void KBookocr::on_radioButton_8_clicked()
+{
+    this->on_spinBox_3_valueChanged(this->currentPage);
+}
+
+void KBookocr::OCRProcess(int procent)
+{
+    if (!ui->groupBox_4->isVisible())
+        ui->groupBox_4->setVisible(true);
+    ui->progressBar_2->setValue(procent);
+}
+
+void KBookocr::on_horizontalSlider_actionTriggered(int action)
+{
+
 }

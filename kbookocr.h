@@ -11,6 +11,7 @@
 #include "convertingtoimgwite.h"
 #include "viewwidget.h"
 #include "viewadder.h"
+#include "ocrthread.h"
 
 // #include <poppler/PDFDoc.h>
 //#include <poppler/PDFDoc.h>
@@ -53,6 +54,9 @@ public slots:
     void selectedViewId(int);
     void pageCounChanged(int);
     void scanComplete(const QImage&,int);
+    void OCRComplete(QString);
+    void OCRProcess(int);
+
 
 private:
 
@@ -62,7 +66,18 @@ private:
     //Okular::KDocumenView
     // end new
 
-    KScanDialog* scanDialog;
+    //KScanDialog* scanDialog;
+
+    //bool toWriter;
+
+    bool saveImages();
+    bool saveAllImages();
+    bool saveImages(int,int);
+    bool saveImg(int);
+    bool saveManualImages();
+    QString getWorkDir();
+    bool clearWorkDir();
+    bool removeDir(const QString&);
 
     Ui::KBookocr *ui;
 
@@ -100,6 +115,7 @@ private:
     void load();
     void save();
     QString formImgFromPdf();
+    //QString scanToFile();
 
     //void refreshViewPanel();
     //void setViewPanelVisible(bool);
@@ -112,6 +128,7 @@ private:
 
     QList<ViewWidget*> viewWidgets;
     viewAdder* adder;
+    OCRThread* OCR;
     Document* openPath(const QString&);
     bool isImg(QFileInfo);
     bool isPdf(QFileInfo);
@@ -158,6 +175,8 @@ private slots:
     void on_pushButton_3_clicked();
 
 
+    void on_radioButton_8_clicked();
+    void on_horizontalSlider_actionTriggered(int action);
 };
 
 #endif // KBOOKOCR_H

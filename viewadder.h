@@ -17,6 +17,7 @@ public:
     int getWidgetCount();
     ViewWidget* getWidgetAt(int);
 
+
 signals:
     void done(int,int);
     void newViewReady(ViewWidget*);

@@ -33,7 +33,7 @@ QImage pdfDocument::getPreview(int n)
 {
     if (this->isOpened() &&
             n > 0 &&
-            n < this->getPageCount())
+            n <= this->getPageCount())
     {
         //doc->page(n)->renderToImage()
         return doc->page(n)->renderToImage(70,110);
@@ -45,7 +45,7 @@ QImage pdfDocument::getPage(int n)
 {
     if (this->isOpened() &&
             n > 0 &&
-            n < this->getPageCount())
+            n <= this->getPageCount())
     {
         //doc->page(n)->renderToImage()
         return doc->page(n)->renderToImage(100,100);

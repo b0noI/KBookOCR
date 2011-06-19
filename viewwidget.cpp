@@ -52,6 +52,21 @@ ViewWidget::~ViewWidget()
     delete ui;
 }
 
+bool ViewWidget::isChecked()
+{
+    return ui->label_view->isChecked();
+}
+
+bool ViewWidget::saveImg(QString path)
+{
+    if (this->getView().width() > 20)
+    {
+        this->getView().save(path);
+        return true;
+    }
+    return false;
+}
+
 bool ViewWidget::setImg(QImage img)
 {
     if (img.width() > 50 && img.height() > 50)
@@ -120,7 +135,8 @@ void ViewWidget::on_pushButton_4_clicked()
     QString path = QFileDialog::getSaveFileName();
     if (!path.isEmpty())
     {
-        this->getView().save(path);
+        //this->getView().save(path);
+        this->saveImg(path);
         QMessageBox::information(0,"KBookOCR","saved to: "+path);
     }
 }
