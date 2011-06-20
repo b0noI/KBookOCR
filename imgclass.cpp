@@ -16,7 +16,7 @@ imgClass::imgClass(QImage img)
 
 QImage imgClass::getRealPage(int n=1)
 {
-    if (n == 1)
+    if (n == 1 || n == 0)
         return this->getPage(n);
     return QImage();
 }
@@ -76,7 +76,7 @@ int imgClass::getPageCount()
 
 QImage imgClass::getPage(int n)
 {
-    if (n == 1)
+    if (n == 1 || n == 0)
         return this->img;
     return QImage();
 }

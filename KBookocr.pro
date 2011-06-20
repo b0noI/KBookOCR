@@ -42,7 +42,8 @@ FORMS    += kbookocr.ui \
     scanerdialog.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
-LIBS         += -L/usr/lib -lpoppler-qt4
+LIBS         += -L/usr/lib -lpoppler-qt4 \
+/usr/lib/libksane.so
 
 RESOURCES += \
     ico.qrc

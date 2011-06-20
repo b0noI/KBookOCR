@@ -52,6 +52,12 @@ ViewWidget::~ViewWidget()
     delete ui;
 }
 
+bool ViewWidget::setChecked(bool check)
+{
+    ui->label_view->setChecked(check);
+    return ui->label_view->isChecked();
+}
+
 bool ViewWidget::isChecked()
 {
     return ui->label_view->isChecked();

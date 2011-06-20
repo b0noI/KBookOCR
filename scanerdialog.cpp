@@ -6,6 +6,8 @@ ScanerDialog::ScanerDialog(QWidget *parent) :
     ui(new Ui::ScanerDialog)
 {
     ui->setupUi(this);
+    //this->scanerWidget.show();
+    //ui->verticalLayout->addWidget((QWidget)this->scanerWidget);
 }
 
 ScanerDialog::~ScanerDialog()

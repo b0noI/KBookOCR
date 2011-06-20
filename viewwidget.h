@@ -23,6 +23,7 @@ public:
     int getPageNumber();
     bool isChecked();
     bool saveImg(QString);
+    bool setChecked(bool);
 
 signals:
     void deleted(int);

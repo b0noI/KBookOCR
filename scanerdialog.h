@@ -2,11 +2,14 @@
 #define SCANERDIALOG_H
 
 #include <QDialog>
-//#include <
+#include <libksane/ksane.h>
+//#include <libksane/
 
 namespace Ui {
     class ScanerDialog;
 }
+
+using namespace KSaneIface;
 
 class ScanerDialog : public QDialog
 {
@@ -18,6 +21,7 @@ public:
 
 private:
     Ui::ScanerDialog *ui;
+    KSaneWidget scanerWidget;
 };
 
 #endif // SCANERDIALOG_H

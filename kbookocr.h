@@ -4,14 +4,17 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QFileInfo>
-#include <KDE/KScanDialog>
-#include <kscan.h>
+
+#include <libksane/ksane.h>
+//#include <KDE/KScanDialog>
+//#include <kscan.h>
 
 #include "enum.h"
 #include "convertingtoimgwite.h"
 #include "viewwidget.h"
 #include "viewadder.h"
 #include "ocrthread.h"
+//#include "scanerdialog.h"
 
 // #include <poppler/PDFDoc.h>
 //#include <poppler/PDFDoc.h>
@@ -56,6 +59,7 @@ public slots:
     void scanComplete(const QImage&,int);
     void OCRComplete(QString);
     void OCRProcess(int);
+    void scanerReady(const QByteArray&,int,int,int,int);
 
 
 private:
@@ -129,6 +133,8 @@ private:
     QList<ViewWidget*> viewWidgets;
     viewAdder* adder;
     OCRThread* OCR;
+    //ScanerDialog scanDialog;
+    KSaneIface::KSaneWidget scanerWidget;
     Document* openPath(const QString&);
     bool isImg(QFileInfo);
     bool isPdf(QFileInfo);
@@ -177,6 +183,7 @@ private slots:
 
     void on_radioButton_8_clicked();
     void on_horizontalSlider_actionTriggered(int action);
+    void on_pushButton_9_clicked();
 };
 
 #endif // KBOOKOCR_H

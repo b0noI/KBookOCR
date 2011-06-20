@@ -42,6 +42,9 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->groupBox_4->setVisible(false);
     ui->groupBox_5->setVisible(false);
 
+    connect (&this->scanerWidget,SIGNAL(imageReady(QByteArray&,int,int,int,int)),this,SLOT(scanerReady(QByteArray,int,int,int,int)));
+            //this->scanerWidget.toQImage()
+
     //ui->verticalLayout->addWidget(this->currentDoc.widget());
 
     //this->scanDialog = KScanDialog::getScanDialog( this );
@@ -97,6 +100,12 @@ KBookocr::KBookocr(QWidget *parent) :
     */
 
     //connect (this->viewWidgets,SIGNAL())
+}
+
+void KBookocr::scanerReady(const QByteArray &ba, int n1, int n2, int n3, int n4)
+{
+    KSaneIface::KSaneWidget::ImageFormat format;
+    this->newImgAdd(this->scanerWidget.toQImage(ba, n1, n2, n3, format),1,new imgClass(this->scanerWidget.toQImage(ba,n1,n2,n3,format)));
 }
 
 void KBookocr::selectedViewId(int id)
@@ -1227,7 +1236,7 @@ void KBookocr::on_pushButton_6_clicked()
         return ;
     }
 
-    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","Book (*.pdf);;Images (*.jpg, *.jpeg, *.bmp, *.png, *.gif);;All (*.jpg, *.jpeg, *.bmp, *.png, *.gif, *.pdf)"));
+    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","All (*.jpg *.jpeg *.bmp *.png *.gif *.pdf);;Book (*.pdf);;Images (*.jpg *.jpeg *.bmp *.png *.gif)"));
     if (doc)
     {
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
@@ -1324,6 +1333,8 @@ void KBookocr::on_pushButton_7_clicked()
         if (this->scanDialog->setup())
             this->scanDialog->show();
     }*/
+    //this->scanDialog.show();
+    this->scanerWidget.show();
 }
 
 void KBookocr::getScanPreview()
@@ -1797,4 +1808,14 @@ void KBookocr::OCRProcess(int procent)
 void KBookocr::on_horizontalSlider_actionTriggered(int action)
 {
 
+}
+
+void KBookocr::on_pushButton_9_clicked()
+{
+    ViewWidget* view;
+    foreach (view, this->viewWidgets)
+    {
+        if (view->isChecked())
+            view->setChecked(false);
+    }
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>859</width>
-    <height>520</height>
+    <width>857</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -55,8 +55,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>320</width>
-           <height>427</height>
+           <width>324</width>
+           <height>423</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -609,7 +609,8 @@ p, li { white-space: pre-wrap; }
          </size>
         </property>
         <property name="text">
-         <string>Open book</string>
+         <string>Add 
+file</string>
         </property>
         <property name="icon">
          <iconset resource="ico.qrc">
@@ -626,7 +627,8 @@ p, li { white-space: pre-wrap; }
       <item>
        <widget class="QPushButton" name="pushButton_7">
         <property name="text">
-         <string>Scan image</string>
+         <string>Scan 
+image</string>
         </property>
         <property name="icon">
          <iconset resource="ico.qrc">
@@ -661,7 +663,8 @@ p, li { white-space: pre-wrap; }
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>OCR to file</string>
+         <string>OCR to: 
+file</string>
         </property>
         <property name="icon">
          <iconset resource="ico.qrc">
@@ -684,7 +687,8 @@ p, li { white-space: pre-wrap; }
          </sizepolicy>
         </property>
         <property name="text">
-         <string>OCR to editor</string>
+         <string>OCR to: 
+editor</string>
         </property>
         <property name="icon">
          <iconset resource="ico.qrc">
@@ -700,6 +704,49 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QPushButton" name="pushButton_10">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 7pt &quot;Ubuntu&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Save project</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_11">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 7pt &quot;Ubuntu&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Load project</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_4">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -736,35 +783,58 @@ p, li { white-space: pre-wrap; }
     <item row="3" column="0" rowspan="2">
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>180</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>180</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>clear</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>clear all</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_9">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>uncheck all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="minimumSize">
          <size>
-          <width>180</width>
+          <width>170</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>180</width>
+          <width>170</width>
           <height>16777215</height>
          </size>
         </property>
@@ -803,7 +873,7 @@ p, li { white-space: pre-wrap; }
        <widget class="QScrollArea" name="scrollArea_2">
         <property name="maximumSize">
          <size>
-          <width>180</width>
+          <width>170</width>
           <height>16777215</height>
          </size>
         </property>
@@ -815,8 +885,8 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>176</width>
-           <height>415</height>
+           <width>166</width>
+           <height>409</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
