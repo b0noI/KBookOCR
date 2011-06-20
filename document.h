@@ -17,11 +17,12 @@ public:
     virtual int getPageCount() = 0;
     virtual QString getFormat() = 0;
     virtual bool open(QString) = 0;
+    virtual QImage getPreview(int);
     //virtual bool saveImg(QString, int) = 0;
     virtual bool close() = 0;
     QString getPath();
     bool setPath(const QString&);
-    virtual QImage getPreview(int);
+
     bool setPreviewSize(const QSize&);
     QSize getPreviewSize();
     bool isOpened();

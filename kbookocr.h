@@ -14,6 +14,8 @@
 #include "viewwidget.h"
 #include "viewadder.h"
 #include "ocrthread.h"
+#include "savethread.h"
+#include "jpgdirdocument.h"
 //#include "scanerdialog.h"
 
 // #include <poppler/PDFDoc.h>
@@ -60,6 +62,8 @@ public slots:
     void OCRComplete(QString);
     void OCRProcess(int);
     void scanerReady(const QByteArray&,int,int,int,int);
+    void saveDone(QString);
+    void loadFilesReady();
 
 
 private:
@@ -107,6 +111,7 @@ private:
     QProcess* libreOfficeProcess;
     QProcess* getScanPreviewProcess;
     QProcess* convertDjvu2Pdf;
+    QProcess* loader;
 
     void setVisibleScanOrFile(bool); // true - file, false - scaner
     bool isFileMode();
@@ -133,6 +138,7 @@ private:
     QList<ViewWidget*> viewWidgets;
     viewAdder* adder;
     OCRThread* OCR;
+    SaveThread* saver;
     //ScanerDialog scanDialog;
     KSaneIface::KSaneWidget scanerWidget;
     Document* openPath(const QString&);
@@ -184,6 +190,9 @@ private slots:
     void on_radioButton_8_clicked();
     void on_horizontalSlider_actionTriggered(int action);
     void on_pushButton_9_clicked();
+    void on_pushButton_10_clicked();
+    void on_pushButton_12_clicked();
+    void on_pushButton_11_clicked();
 };
 
 #endif // KBOOKOCR_H

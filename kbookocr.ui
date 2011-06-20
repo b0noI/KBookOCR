@@ -446,6 +446,39 @@
        </spacer>
       </item>
       <item>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="maximumSize">
+         <size>
+          <width>175</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Saving</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QProgressBar" name="progressBar_4">
+           <property name="value">
+            <number>24</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_12">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="ico.qrc">
+             <normaloff>:/ico/files/ico/designkode-free-icons/delete.png</normaloff>:/ico/files/ico/designkode-free-icons/delete.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <widget class="QGroupBox" name="groupBox_5">
         <property name="maximumSize">
          <size>

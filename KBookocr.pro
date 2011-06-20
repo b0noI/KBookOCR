@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     imgclass.cpp \
     viewadder.cpp \
     ocrthread.cpp \
-    scanerdialog.cpp
+    scanerdialog.cpp \
+    savethread.cpp \
+    jpgdirdocument.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -34,7 +36,9 @@ HEADERS  += kbookocr.h \
     imgclass.h \
     viewadder.h \
     ocrthread.h \
-    scanerdialog.h
+    scanerdialog.h \
+    savethread.h \
+    jpgdirdocument.h
 
 FORMS    += kbookocr.ui \
     convertingtoimgwite.ui \

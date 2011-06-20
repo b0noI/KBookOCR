@@ -31,7 +31,9 @@ KBookocr::KBookocr(QWidget *parent) :
     outFormat(RTF),
     idCount(0),
     adder(0),
-    OCR(0)
+    OCR(0),
+    saver(0),
+    loader(0)
     //currentDoc(this)
 {
 
@@ -41,6 +43,7 @@ KBookocr::KBookocr(QWidget *parent) :
 
     ui->groupBox_4->setVisible(false);
     ui->groupBox_5->setVisible(false);
+    ui->groupBox_7->setVisible(false);
 
     connect (&this->scanerWidget,SIGNAL(imageReady(QByteArray&,int,int,int,int)),this,SLOT(scanerReady(QByteArray,int,int,int,int)));
             //this->scanerWidget.toQImage()
@@ -153,6 +156,13 @@ KBookocr::~KBookocr()
 {
     this->save();
 
+
+    if (this->loader)
+    {
+        this->loader->terminate();
+        delete this->loader;
+    }
+
     if (this->getScanPreviewProcess)
     {
         this->getScanPreviewProcess->kill();
@@ -195,6 +205,9 @@ KBookocr::~KBookocr()
 
     if (this->OCR)
         delete this->OCR;
+
+    if (this->saver)
+        delete this->saver;
 
     delete ui;
 }
@@ -1817,5 +1830,80 @@ void KBookocr::on_pushButton_9_clicked()
     {
         if (view->isChecked())
             view->setChecked(false);
+    }
+}
+
+void KBookocr::on_pushButton_10_clicked()
+{
+    QString path = QFileDialog::getSaveFileName(this,"KBookOCR","~","KBookOCR save file (*.kb)");
+    if (!path.isEmpty())
+    {
+        if (this->saver)
+            delete saver;
+        ui->groupBox_7->setVisible(true);
+        this->saver = new SaveThread(this,this->viewWidgets,path);
+        connect (this->saver, SIGNAL(done(QString)),this,SLOT(saveDone(QString)));
+        connect (this->saver,SIGNAL(process(int)),ui->progressBar_4,SLOT(setValue(int)));
+        this->saver->start();
+    }
+}
+
+void KBookocr::saveDone(QString path)
+{
+    ui->groupBox_7->setVisible(false);
+    QMessageBox::information(this,"KBookOCR","File :"+path+"<p>done");
+}
+
+void KBookocr::on_pushButton_12_clicked()
+{
+    if (this->saver)
+    {
+        this->saver->terminate();
+        delete this->saver;
+    }
+    ui->groupBox_7->setVisible(false);
+}
+
+void KBookocr::on_pushButton_11_clicked()
+{
+    QString path = QFileDialog::getOpenFileName(this,
+                                                "KBookOCR","~",
+                                                "KBookOCR save files (*.kb)");
+    QFileInfo inf (path);
+    if (inf.exists())
+    {
+     if (this->loader)
+         delete this->loader;
+     this->loader = new QProcess(this);
+     QString prog = "load.sh";
+     QStringList args;
+     args << path;
+     connect (this->loader,SIGNAL(finished(int)),this,SLOT(loadFilesReady()));
+     this->loader->start(prog,args);
+    }
+}
+
+void KBookocr::loadFilesReady()
+{
+    //QString dir =
+    QString dirPath = QDir::tempPath() + QDir::separator() + "temp.KBookOCR.save" + QDir::separator();
+    JpgDirDocument* jdd = new JpgDirDocument(dirPath);
+    //this->adder = new
+    if (jdd->isOpened())
+    {
+    this->on_pushButton_clicked();
+    this->adder = new viewAdder(this, ui->verticalLayout_10,jdd, this->getNewId());
+    connect(this->adder,SIGNAL(finished()),this,SLOT(addFinished()));
+    connect(this->adder,SIGNAL(done(int,int)),this,SLOT(doneProgress(int,int)));
+    connect(this->adder, SIGNAL(newViewReady(ViewWidget*)),this,SLOT(newViewAdd(ViewWidget*)));
+    connect(this->adder,SIGNAL(newImgDone(QImage,int,Document*)),this,SLOT(newImgAdd(QImage,int,Document*)));
+
+    ui->groupBox->setVisible(true);
+   // ui->label_11->setVisible(true);
+
+    this->idCount += jdd->getPageCount();
+    //this->adder->run();
+    //this->adder->start
+    this->adder->Execute();
     }
 }
