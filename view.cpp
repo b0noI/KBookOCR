@@ -1,6 +1,7 @@
 #include "view.h"
 #include "imgclass.h"
 #include <QFileInfo>
+#include <QDir>
 /*
 View::View(QString path)
 {
@@ -20,6 +21,17 @@ View::View(QString path)
     }
 }
 */
+QString View::getImgDir()
+{
+    QString dirPath = QDir::tempPath() +
+            QDir::separator() +
+            "KBookOCR.tmp.imgs" + QDir::separator();
+    QDir dir(dirPath);
+    if (!dir.exists())
+        dir.mkdir(dirPath);
+    return dirPath;
+}
+
 bool View::setView(const QImage &img)
 {
     if (img != this->getView() &&
@@ -27,7 +39,21 @@ bool View::setView(const QImage &img)
             img.height() > 100)
     {
 
-        this->img = img;
+    //    this->img = img;
+
+        QString imgPath;
+        QFileInfo* inf = 0;
+        do
+        {
+            imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+            if (inf)
+                delete inf;
+            inf = new QFileInfo(imgPath);
+        }
+        while (inf->exists());
+        img.save(imgPath);
+        this->path = imgPath;
+
         return true;
     }
     return false;
@@ -36,7 +62,6 @@ bool View::setView(const QImage &img)
 View::View(QImage img, Document* doc, int page)
 {
     this->setView(img);
-    //this->doc = new imgClass(img);
     this->doc = doc;
     this->realPage = page;
 }
@@ -72,9 +97,10 @@ void View::imgForViewReady(QImage img)
 */
 QImage View::getView()
 {
-    //doc->getPreview()
-    //return this->doc->getPage(this->page);
-    return this->img;
+    //return this->img;
+    QImage img;
+    img.load(this->path);
+    return img;
 
 }
 

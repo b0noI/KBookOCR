@@ -13,6 +13,8 @@
 #include <QDialog>
 #include <QSpacerItem>
 
+//#include <djvudocument.h>
+
 #include "imgclass.h"
 #include "pdfdocument.h"
 #include "djvudocument.h"
@@ -24,22 +26,31 @@
 KBookocr::KBookocr(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::KBookocr),
-    pdf (true),
-    open(false),
+    //pdf (true),
+    //open(false),
     currentPage(1),
     saveToFile(false),
-    outFormat(RTF),
+    //outFormat(RTF),
     idCount(0),
     adder(0),
     OCR(0),
     saver(0),
-    loader(0)
+    loader(0),
+    convertDjvu2Pdf(0)
     //currentDoc(this)
 {
 
 
 
     ui->setupUi(this);
+
+
+    QString dirPath = QDir::tempPath() +
+            QDir::separator() +
+            "KBookOCR.tmp.imgs" + QDir::separator();
+    QDir ddir(dirPath);
+    if (ddir.exists())
+        this->removeDir(dirPath);
 
     ui->groupBox_4->setVisible(false);
     ui->groupBox_5->setVisible(false);
@@ -75,17 +86,17 @@ KBookocr::KBookocr(QWidget *parent) :
 
     //ui->lineEdit_2->setVisible(false);
 
-    this->bookOCRProcess = 0;
-    this->scanProcess = 0;
+    //this->bookOCRProcess = 0;
+    //this->scanProcess = 0;
     this->libreOfficeProcess = 0;
-    this->getScanPreviewProcess = 0;
-    this->convertDjvu2Pdf = 0;
+    //this->getScanPreviewProcess = 0;
+    //this->convertDjvu2Pdf = 0;
 
     size.setWidth(0);
 
     //ui->radioButton_7->setVisible(false);
 
-    this->setVisibleScanOrFile(false);
+    //this->setVisibleScanOrFile(false);
 
 
     /*
@@ -122,10 +133,10 @@ void KBookocr::selectedViewId(int id)
         }
 }
 
-void KBookocr::scanComplete(const QImage &img, int n)
+/*void KBookocr::scanComplete(const QImage &img, int n)
 {
     //this->newImgAdd(img,n);
-}
+}*/
 
 void KBookocr::pageCounChanged(int n)
 {
@@ -140,7 +151,7 @@ int KBookocr::getNewId()
     return this->idCount++;
 }
 
-bool KBookocr::openDoc(QString path)
+/*bool KBookocr::openDoc(QString path)
 {
     //if (this->currentDoc)
     //    delete this->currentDoc;
@@ -150,11 +161,11 @@ bool KBookocr::openDoc(QString path)
    // KUrl url(path);
     //KMimeType::Ptr mime;
     //this->currentDoc.openDocument(path, url);
-}
+}*/
 
 KBookocr::~KBookocr()
 {
-    this->save();
+  //  this->save();
 
 
     if (this->loader)
@@ -163,11 +174,11 @@ KBookocr::~KBookocr()
         delete this->loader;
     }
 
-    if (this->getScanPreviewProcess)
+    /*if (this->getScanPreviewProcess)
     {
         this->getScanPreviewProcess->kill();
         delete this->getScanPreviewProcess;
-    }
+    }*/
 
     if (this->convertDjvu2Pdf)
     {
@@ -175,11 +186,11 @@ KBookocr::~KBookocr()
         delete this->convertDjvu2Pdf;
     }
 
-    if (this->bookOCRProcess)
+    /*if (this->bookOCRProcess)
     {
         this->bookOCRProcess->kill();
         delete this->bookOCRProcess;
-    }
+    }*/
 
     if (this->libreOfficeProcess)
     {
@@ -194,11 +205,11 @@ KBookocr::~KBookocr()
     }*/
     //this->openOfficeProcess->
 
-    if (this->scanProcess)
+    /*if (this->scanProcess)
     {
         this->scanProcess->kill();
         delete this->scanProcess;
-    }
+    }*/
 
     if (this->adder)
         delete this->adder;
@@ -212,13 +223,13 @@ KBookocr::~KBookocr()
     delete ui;
 }
 
-void KBookocr::load()
+/*void KBookocr::load()
 {
     QSettings settings("KBookOCR", "snapShot");
     if (settings.allKeys().contains("load"))
     {
         //QDialog dialog();
-        if (settings.value("load").toBool()/* && dialog.exec()*/)
+        if (settings.value("load").toBool()/* && dialog.exec()*//*)
         {
             ui->radioButton->setChecked(
                         settings.value("allPages").toBool());
@@ -232,11 +243,11 @@ void KBookocr::load()
 
             //this->pageChecked = (QList<bool>)(settings.value("listOfPages"));//, this->pageChecked);
 
-            this->currentPage =
-                    settings.value("currentPage").toInt();//, this->currentPage);
+            //this->currentPage =
+              //      settings.value("currentPage").toInt();//, this->currentPage);
 
-            this->currentFirstView =
-                    settings.value("currentFirstPage").toInt();//, this->currentFirstView);
+            //this->currentFirstView =
+              //      settings.value("currentFirstPage").toInt();//, this->currentFirstView);
 
             //ui->lineEdit_2->setText(
               //  settings.value("inPath").toString());//, ui->lineEdit_2->text());
@@ -244,21 +255,21 @@ void KBookocr::load()
             this->setPathToSave(
                 settings.value("outPath").toString());//, this->getPathToSave());
 
-            this->setVisibleScanOrFile(true);
+            //this->setVisibleScanOrFile(true);
             //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
-            this->openFiles();
+            //this->openFiles();
 
             //settings.setValue("load", true);
         }
     }
-}
+}*/
 
-void KBookocr::save()
+/*void KBookocr::save()
 {
     QSettings settings("KBookOCR", "snapShot");
     /*if (this->isFileMode())
     {*/
-
+/*
 
 
         settings.setValue("allPages", ui->radioButton->isChecked());
@@ -267,8 +278,8 @@ void KBookocr::save()
 
         //settings.setValue("listOfPages", this->pageChecked);
 
-        settings.setValue("currentPage", this->currentPage);
-        settings.setValue("currentFirstPage", this->currentFirstView);
+        //settings.setValue("currentPage", this->currentPage);
+        //settings.setValue("currentFirstPage", this->currentFirstView);
         //settings.setValue("inPath", ui->lineEdit_2->text());
         settings.setValue("outPath", this->getPathToSave());
         settings.setValue("load", true);
@@ -277,9 +288,9 @@ void KBookocr::save()
  /*   }
     else
         settings.setValue("load", false);*/
-}
+//}
 
-QString KBookocr::fromFormatToStr(OUT_FORMAT format)
+/*QString KBookocr::fromFormatToStr(OUT_FORMAT format)
 {
     switch (format)
     {
@@ -299,20 +310,20 @@ QString KBookocr::fromFormatToStr(OUT_FORMAT format)
     };
 
     return "ERROR";
-}
+}*/
 
-OUT_FORMAT KBookocr::getOutFormat()
+/*OUT_FORMAT KBookocr::getOutFormat()
 {
     return this->outFormat;
-}
+}*/
 
-bool KBookocr::setOutFormat(OUT_FORMAT format)
+/*bool KBookocr::setOutFormat(OUT_FORMAT format)
 {
     if (this->outFormat == format)
         return false;
     this->outFormat = format;
     return true;
-}
+}*/
 
 bool KBookocr::setPathToSave()
 {
@@ -384,7 +395,7 @@ void KBookocr::scanComplete(int)
      */
 //}
 
-QString KBookocr::formImgFromPdf()
+/*QString KBookocr::formImgFromPdf()
 {
     QString dirPath;
     if (this->open && this->pdf)
@@ -451,9 +462,9 @@ QString KBookocr::formImgFromPdf()
         delete this->convToImg;
     }
     return dirPath;
-}
+}*/
 
-void KBookocr::scanAndOCR()
+/*void KBookocr::scanAndOCR()
 {
     QString program = "scan.sh";
 
@@ -472,9 +483,9 @@ void KBookocr::scanAndOCR()
     this->scanProcess = new QProcess(this);
     connect (this->scanProcess,SIGNAL(finished(int)),this,SLOT(scanComplete(int)));
     this->scanProcess->start(program, param);
-}
+}*/
 
-void KBookocr::OCRFromFile()
+/*void KBookocr::OCRFromFile()
 {
      QString dirIn;
      dirIn = this->formImgFromPdf();
@@ -650,23 +661,23 @@ void KBookocr::OCRFromFile()
          bookOCRProcess->start(program,args);
      }
      */
-}
+//}
 
-void KBookocr::start()
-{
+//void KBookocr::start()
+//{
 
 
-    if (!this->isFileMode())
+   /* if (!this->isFileMode())
     {
 
-        this->scanAndOCR();
+        //this->scanAndOCR();
 
     }
     else
     {
         this->OCRFromFile();
-    }
-}
+    }*/
+//}
 
 void KBookocr::openOfficeOpen(int)
 {
@@ -702,7 +713,7 @@ void KBookocr::openOfficeOpen(int)
 
 bool KBookocr::clearPathToSave()
 {
-    this->pathToSave = QString();
+    this->pathToSave.clear();// = QString();
     return true;
 }
 
@@ -826,9 +837,9 @@ void KBookocr::setSize()
     }
 }
 
-void KBookocr::previewDJVUChanged(int)
+/*void KBookocr::previewDJVUChanged(int)
 {
-    if(open)
+    //if(open)
     {
     QImage image;
     image.load(QDir::tempPath()+"/tmp.tiff");
@@ -862,7 +873,7 @@ void KBookocr::previewDJVUChanged(int)
         ui->horizontalSlider->setEnabled(true);
     }
     }
-}
+}*/
 
 void KBookocr::on_radioButton_5_clicked() //set native size
 {
@@ -974,8 +985,8 @@ void KBookocr::on_pushButton_4_clicked()
 void KBookocr::on_horizontalSlider_sliderReleased()
 {
 
-    if (open)
-    {
+    //if (open)
+    /*{
 
     if (!ui->radioButton_8->isChecked())
         ui->radioButton_8->setChecked(true);
@@ -990,7 +1001,7 @@ void KBookocr::on_horizontalSlider_sliderReleased()
     }
     }
 
-
+*/
 }
 /*
 QList<int> KBookocr::makeListOfMarkedPages()
@@ -1006,7 +1017,7 @@ QList<int> KBookocr::makeListOfMarkedPages()
 */
 QString KBookocr::getVersion()
 {
-    return "2.0 alpha";
+    return "2.0";
 }
 
 void KBookocr::on_pushButton_5_clicked()
@@ -1018,7 +1029,7 @@ void KBookocr::on_pushButton_5_clicked()
                              "<p> Icons are used from \"Farm-Fresh Web Icons\" set <p>http://www.fatcow.com/free-icon");
 }
 
-void KBookocr::setVisibleScanOrFile(bool n) // true - file, false - scaner
+/*void KBookocr::setVisibleScanOrFile(bool n) // true - file, false - scaner
 {
 
     //ui->pushButton_3->setVisible(false);
@@ -1048,9 +1059,9 @@ void KBookocr::setVisibleScanOrFile(bool n) // true - file, false - scaner
         //ui->lineEdit_3->setVisible(true);
         //ui->pushButton_4->setVisible(true);
     }
-}
+}*/
 
-bool KBookocr::startConvertFromDjvu(QString djvuPath, QString tiffPath, QString pdfPath)
+/*bool KBookocr::startConvertFromDjvu(QString djvuPath, QString tiffPath, QString pdfPath)
 {
     QFileInfo inf(djvuPath);
     if (inf.exists() && inf.suffix().toLower() == "djvu")
@@ -1069,17 +1080,17 @@ bool KBookocr::startConvertFromDjvu(QString djvuPath, QString tiffPath, QString 
         return true;
     }
     return false;
-}
+}*/
 
-void KBookocr::djvu2pdfReady(int)
+/*void KBookocr::djvu2pdfReady(int)
 {
 
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_8->setEnabled(true);
-    this->openFiles();
-}
+    //this->openFiles();
+}*/
 
-bool KBookocr::addView(Document *doc, int n)
+/*bool KBookocr::addView(Document *doc, int n)
 {
     /*if (doc)
     {
@@ -1089,9 +1100,9 @@ bool KBookocr::addView(Document *doc, int n)
         return true;
     }
     return false;*/
-}
+//}
 
-void KBookocr::openFiles()
+/*void KBookocr::openFiles()
 {
     open = false;
 
@@ -1100,14 +1111,14 @@ void KBookocr::openFiles()
     //QFileInfo fileIn(ui->lineEdit_2->text());
     //if (fileIn.exists())
     {
-        //sif (fileIn.suffix().toLower() == "pdf" /*|| fileIn.suffix().toLower() == "djvu"*/)
+        //sif (fileIn.suffix().toLower() == "pdf" /*|| fileIn.suffix().toLower() == "djvu"*///)
         /*{
             //doc = Poppler::Document::load(ui->lineEdit_2->text());
             open = true;
             pdf = true;
         }
         else*/
-        {
+  /*      {
             //if (fileIn.suffix().toLower() == "djvu")
             {
                 //this->djvuPath = ui->lineEdit_2->text();
@@ -1156,7 +1167,7 @@ void KBookocr::openFiles()
         //for (int i=0;i<this->doc->numPages();i++)
             //this->pageChecked << false;
 
-    }
+    /*}
     if (open && !pdf)
     {
 
@@ -1178,7 +1189,7 @@ void KBookocr::openFiles()
         //this->refreshViewPanel();
 
     }
-}
+}*/
 
 Document* KBookocr::openPath(const QString &path)
 {
@@ -1249,7 +1260,67 @@ void KBookocr::on_pushButton_6_clicked()
         return ;
     }
 
-    Document* doc = this->openPath(QFileDialog::getOpenFileName(this,"Adding to project","~","All (*.jpg *.jpeg *.bmp *.png *.gif *.pdf);;Book (*.pdf);;Images (*.jpg *.jpeg *.bmp *.png *.gif)"));
+    QString filePath = QFileDialog::getOpenFileName(this,"Adding to project","~","All (*.jpg *.jpeg *.bmp *.png *.gif *.pdf *.djvu);;Book (*.pdf *.djvu);;Images (*.jpg *.jpeg *.bmp *.png *.gif)");
+
+    QFileInfo inf(filePath);
+    if (inf.suffix().toLower() == "djvu")
+    {
+        this->startOpenDJVU(filePath);
+        return ;
+    }
+
+    this->startOpening(filePath);
+    //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
+    //this->openFiles();
+}
+
+bool KBookocr::startOpenDJVU(QString path)
+{
+    if (path.isEmpty())
+        return false;
+
+    if (this->convertDjvu2Pdf)
+        delete this->convertDjvu2Pdf;
+
+    this->convertDjvu2Pdf = new QProcess(this);
+    \
+    QString prog = "ddjvu";
+    QString outPath = QDir::tempPath()
+            + QDir::separator()
+            + "KBookOCR.pdf";
+
+
+    QFile file(outPath);
+
+    if (file.exists())
+        file.remove();
+
+    QStringList args;
+    args << "-format=pdf"
+         << path
+         << outPath;
+
+    QMessageBox::information(this,"KBookOCR","Wait untill DJVU prepering to open");
+    connect (this->convertDjvu2Pdf,SIGNAL(finished(int)),this,SLOT(djvuReady()));
+    this->convertDjvu2Pdf->start(prog,args);
+
+    return true;
+}
+
+void KBookocr::djvuReady()
+{
+    QString outPath = QDir::tempPath()
+            + QDir::separator()
+            + "KBookOCR.pdf";
+
+    this->startOpening(outPath);
+}
+
+bool KBookocr::startOpening(QString path)
+{
+    if (path.isEmpty())
+        return false;
+    Document* doc = this->openPath(path);
     if (doc)
     {
     this->adder = new viewAdder(this, ui->verticalLayout_10,doc, this->getNewId());
@@ -1267,8 +1338,7 @@ void KBookocr::on_pushButton_6_clicked()
     this->adder->Execute();
     //this->adder->start();
     }
-    //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
-    //this->openFiles();
+    return true;
 }
 
 bool KBookocr::removeDir(const QString &dirName)
@@ -1350,7 +1420,7 @@ void KBookocr::on_pushButton_7_clicked()
     this->scanerWidget.show();
 }
 
-void KBookocr::getScanPreview()
+/*void KBookocr::getScanPreview()
 {
     QPixmap pm;
     QImage image(":/imgs/files/imgs/scanWait.jpeg");
@@ -1379,18 +1449,24 @@ void KBookocr::getScanPreview()
                                                  << QDir::tempPath() + "/previeTmp.tiff";
 
     this->getScanPreviewProcess->start(program, param);
-}
+}*/
 
-void KBookocr::scanPreviewReady(int)
+/*void KBookocr::scanPreviewReady(int)
 {
     QPixmap pm;
     QImage image(QDir::tempPath() + "/previeTmp.tiff");
     pm = QPixmap::fromImage(image);
     ui->label_3->setPixmap(pm);
-}
+}*/
 
 void KBookocr::on_pushButton_2_clicked()
 {
+    if (this->adder)
+    {
+        QMessageBox::warning(this,"KBookOCR","Wait untill adding");
+        return ;
+    }
+
     this->saveToFile = true;
     if (this->setPathToSave())
     {
@@ -1520,6 +1596,12 @@ QString KBookocr::getWorkDir()
 
 void KBookocr::on_pushButton_8_clicked()
 {
+    if (this->adder)
+    {
+        QMessageBox::warning(this,"KBookOCR","Wait untill adding");
+        return ;
+    }
+
     this->saveToFile = false;
     //this->start();
     this->clearWorkDir();
@@ -1551,14 +1633,14 @@ void KBookocr::on_spinBox_2_editingFinished()
 
 void KBookocr::on_verticalScrollBar_valueChanged(int value)
 {
-    if (this->isFileMode() && this->open && this->pdf)
+    /*if (this->isFileMode() && this->open && this->pdf)
     {
         if (value != this->currentFirstView && value < this->doc->numPages())
         {
             this->currentFirstView = value;
             //this->refreshViewPanel();
         }
-    }
+    }*/
 }
 /*
 void KBookocr::refreshViewPanel()
@@ -1680,7 +1762,7 @@ void KBookocr::on_label_view1_clicked(bool checked)
 {
     //this->pageChecked[this->currentFirstView-1] = checked;
     ui->radioButton_3->setChecked(true);
-    ui->spinBox_3->setValue(this->currentFirstView);
+    //ui->spinBox_3->setValue(this->currentFirstView);
     //this->on_spinBox_3_valueChanged(this->currentFirstView);
 }
 
@@ -1688,7 +1770,7 @@ void KBookocr::on_label_view2_clicked(bool checked)
 {
     //this->pageChecked[this->currentFirstView] = checked;
     ui->radioButton_3->setChecked(true);
-    ui->spinBox_3->setValue(this->currentFirstView+1);
+    //ui->spinBox_3->setValue(this->currentFirstView+1);
     //this->on_spinBox_3_valueChanged(this->currentFirstView+1);
 }
 
@@ -1696,7 +1778,7 @@ void KBookocr::on_label_view3_clicked(bool checked)
 {
     //this->pageChecked[this->currentFirstView+1] = checked;
     ui->radioButton_3->setChecked(true);
-    ui->spinBox_3->setValue(this->currentFirstView+2);
+    //ui->spinBox_3->setValue(this->currentFirstView+2);
     //this->on_spinBox_3_valueChanged(this->currentFirstView+2);
 }
 
@@ -1704,7 +1786,7 @@ void KBookocr::on_label_view4_clicked(bool checked)
 {
     //this->pageChecked[this->currentFirstView+2] = checked;
     ui->radioButton_3->setChecked(true);
-    ui->spinBox_3->setValue(this->currentFirstView+3);
+    //ui->spinBox_3->setValue(this->currentFirstView+3);
     //this->on_spinBox_3_valueChanged(this->currentFirstView+3);
 }
 /*
@@ -1907,3 +1989,4 @@ void KBookocr::loadFilesReady()
     this->adder->Execute();
     }
 }
+                                                    

@@ -41,12 +41,12 @@ public:
     bool clearPathToSave();
     QString getPathToSave();
     QString getVersion();
-    bool setOutFormat(OUT_FORMAT);
-    OUT_FORMAT getOutFormat();
-    static QString fromFormatToStr(OUT_FORMAT format);
+    //bool setOutFormat(OUT_FORMAT);
+    //OUT_FORMAT getOutFormat();
+    //static QString fromFormatToStr(OUT_FORMAT format);
 
     // new
-    bool openDoc(QString);
+    //bool openDoc(QString);
     // end new
 
     int getPageCount();
@@ -58,12 +58,13 @@ public slots:
     void deleteViewId(int);
     void selectedViewId(int);
     void pageCounChanged(int);
-    void scanComplete(const QImage&,int);
+    //void scanComplete(const QImage&,int);
     void OCRComplete(QString);
     void OCRProcess(int);
     void scanerReady(const QByteArray&,int,int,int,int);
     void saveDone(QString);
     void loadFilesReady();
+    void djvuReady();
 
 
 private:
@@ -86,51 +87,53 @@ private:
     QString getWorkDir();
     bool clearWorkDir();
     bool removeDir(const QString&);
+    bool startOpening(QString);
+    bool startOpenDJVU(QString);
 
     Ui::KBookocr *ui;
 
-    convertingToImgWite* convToImg;
+    //convertingToImgWite* convToImg;
 
-    bool pdf;
-    bool open;
+    //bool pdf;
+    //bool open;
     bool saveToFile;
 
-    int currentFirstView;
+    //int currentFirstView;
 
-    OUT_FORMAT outFormat;
+    //OUT_FORMAT outFormat;
 
     int currentPage;
-    Poppler::Document *doc;
+    //Poppler::Document *doc;
     QSize size;
     QSize baseSize;
     void setSize();
-    QProcess* bookOCRProcess;
+    //QProcess* bookOCRProcess;
     QProcess* openOfficeProcess;
     //QProcess* previewDJVUProcess;
-    QProcess* scanProcess;
+    //QProcess* scanProcess;
     QProcess* libreOfficeProcess;
-    QProcess* getScanPreviewProcess;
+    //QProcess* getScanPreviewProcess;
     QProcess* convertDjvu2Pdf;
     QProcess* loader;
 
-    void setVisibleScanOrFile(bool); // true - file, false - scaner
+    //void setVisibleScanOrFile(bool); // true - file, false - scaner
     bool isFileMode();
-    void start();
-    void getScanPreview();
-    bool startConvertFromDjvu(QString,QString,QString);
-    void openFiles();
-    void scanAndOCR();
-    void OCRFromFile();
-    void load();
-    void save();
-    QString formImgFromPdf();
+    //void start();
+    //void getScanPreview();
+    //bool startConvertFromDjvu(QString,QString,QString);
+    //void openFiles();
+    //void scanAndOCR();
+    //void OCRFromFile();
+    //void load();
+    //void save();
+    //QString formImgFromPdf();
     //QString scanToFile();
 
     //void refreshViewPanel();
     //void setViewPanelVisible(bool);
 
     QString pathToSave;
-    QString djvuPath;
+    //QString djvuPath;
 
     //QList<bool> pageChecked;
     //QList<int> makeListOfMarkedPages();
@@ -145,7 +148,7 @@ private:
     bool isImg(QFileInfo);
     bool isPdf(QFileInfo);
     bool isDjvu(QFileInfo);
-    bool addView(Document*,int);
+    //bool addView(Document*,int);
     int idCount;
     int getNewId();
 
@@ -159,10 +162,10 @@ private slots:
     void on_spinBox_2_valueChanged(int );
     void on_spinBox_valueChanged(int );
     void openOfficeOpen(int);
-    void previewDJVUChanged(int);
+    //void previewDJVUChanged(int);
     //void scanComplete(int);
-    void scanPreviewReady(int);
-    void djvu2pdfReady(int);
+    //void scanPreviewReady(int);
+    //void djvu2pdfReady(int);
 
     void on_radioButton_7_clicked();
     void on_radioButton_6_clicked();

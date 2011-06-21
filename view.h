@@ -22,9 +22,11 @@ protected:
     int realPage;
 
 private:
-    QImage img;
+    QString getImgDir();
+    //QImage img;
+    QString path;
 
-    //QSize previewSize();
+
 
 
 };

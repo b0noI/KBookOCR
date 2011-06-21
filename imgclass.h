@@ -17,8 +17,11 @@ public:
     bool close();
     bool saveImg(QString, int);
     QImage getRealPage(int);
+
 private:
+    QString getImgDir();
     QImage img;
+    QString path;
 };
 
 #endif // IMGCLASS_H

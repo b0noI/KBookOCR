@@ -41,7 +41,6 @@ HEADERS  += kbookocr.h \
     jpgdirdocument.h
 
 FORMS    += kbookocr.ui \
-    convertingtoimgwite.ui \
     viewwidget.ui \
     scanerdialog.ui
 

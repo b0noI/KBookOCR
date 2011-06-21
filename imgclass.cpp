@@ -1,6 +1,8 @@
 #include "imgclass.h"
 
 #include <QFileInfo>
+#include <QDir>
+#include <stdlib.h>
 
 imgClass::imgClass(QString path)
 {
@@ -10,7 +12,23 @@ imgClass::imgClass(QString path)
 
 imgClass::imgClass(QImage img)
 {
-    this->img = img;
+    //this->img = img;
+
+    QString imgPath;
+    QFileInfo* inf = 0;
+    do
+    {
+        imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+        if (inf)
+            delete inf;
+        inf = new QFileInfo(imgPath);
+    }
+    while (inf->exists());
+    img.save(imgPath);
+    img = QImage();
+    this->path = imgPath;
+
+
     this->ready = true;
 }
 
@@ -29,6 +47,17 @@ bool imgClass::saveImg(QString path, int n=1)
         return true;
     }
     return false;
+}
+
+QString imgClass::getImgDir()
+{
+    QString dirPath = QDir::tempPath() +
+            QDir::separator() +
+            "KBookOCR.tmp.imgs" + QDir::separator();
+    QDir dir(dirPath);
+    if (!dir.exists())
+        dir.mkdir(dirPath);
+    return dirPath;
 }
 
 /*
@@ -57,6 +86,21 @@ bool imgClass::open(QString path)
              suffix == "png"))
     {
         this->img.load(path);
+        //long number;
+        QString imgPath;
+        QFileInfo* inf = 0;
+        do
+        {
+            imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+            if (inf)
+                delete inf;
+            inf = new QFileInfo(imgPath);
+        }
+        while (inf->exists());
+        img.save(imgPath);
+        img = QImage();
+        this->path = imgPath;
+
         this->ready = true;
         return true;
     }
@@ -76,7 +120,12 @@ int imgClass::getPageCount()
 
 QImage imgClass::getPage(int n)
 {
+    QImage img;
+    img.load(this->path);
     if (n == 1 || n == 0)
-        return this->img;
+            return img;
+
+    /*if (n == 1 || n == 0)
+        return this->img;*/
     return QImage();
 }

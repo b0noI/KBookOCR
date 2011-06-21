@@ -9,6 +9,8 @@
 - работа с проектами распознавания, подгрузка проектов
 
 2.0:
-- porting to KPart (OKular)
-- new UI
-- integreting to KDE scaning tool
+- new UI                            [   done    ]
+- integreting to KDE scaning tool   [   done    ]
+- multi thread                      [   done    ]
+- project system                    [   done    ]
+- views system                      [   done    ]
