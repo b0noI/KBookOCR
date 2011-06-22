@@ -56,7 +56,9 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->groupBox_5->setVisible(false);
     ui->groupBox_7->setVisible(false);
 
-    connect (&this->scanerWidget,SIGNAL(imageReady(QByteArray&,int,int,int,int)),this,SLOT(scanerReady(QByteArray,int,int,int,int)));
+    connect (&this->scanerWidget,SIGNAL(imageReady(QByteArray&,int,int,int,int)),this,SLOT(scanerReady(QByteArray&,int,int,int,int)));
+    //connect (&this->scanerWidget,SIGNAL())
+    //this->scanerWidget
             //this->scanerWidget.toQImage()
 
     //ui->verticalLayout->addWidget(this->currentDoc.widget());
@@ -116,10 +118,15 @@ KBookocr::KBookocr(QWidget *parent) :
     //connect (this->viewWidgets,SIGNAL())
 }
 
-void KBookocr::scanerReady(const QByteArray &ba, int n1, int n2, int n3, int n4)
+void KBookocr::scanerReady(QByteArray &ba, int n1, int n2, int n3, int n4)
 {
-    KSaneIface::KSaneWidget::ImageFormat format;
-    this->newImgAdd(this->scanerWidget.toQImage(ba, n1, n2, n3, format),1,new imgClass(this->scanerWidget.toQImage(ba,n1,n2,n3,format)));
+    // format = this->scanerWidget;
+
+    //this->scanerWidget.acceptDrops()
+    //this->scanerWidget.
+    this->newImgAdd(this->scanerWidget.toQImage(ba, n1, n2, n3, (KSaneIface::KSaneWidget::ImageFormat)n4),1,
+                    new imgClass(this->scanerWidget.toQImage(ba,n1,n2,n3,(KSaneIface::KSaneWidget::ImageFormat)n4)));
+    this->scanerWidget.close();
 }
 
 void KBookocr::selectedViewId(int id)
@@ -1417,8 +1424,21 @@ void KBookocr::on_pushButton_7_clicked()
             this->scanDialog->show();
     }*/
     //this->scanDialog.show();
+
+    //this->scanerWidget.openDevice("libusb:003:002");
+    //this->scanerWidget.activateWindow();
+    //this->scanerWidget.initGetDeviceList();
+    //KSaneIface::KSaneWidget::in
+    this->scanerWidget.openDevice(this->scanerWidget.selectDevice(this));
+    //this->scanerWidget.depth()
     this->scanerWidget.show();
+
 }
+
+/*void KBookocr::scanerListReady(const QList< KSaneIface::KSaneWidget::DeviceInfo > & devList)
+{
+
+}*/
 
 /*void KBookocr::getScanPreview()
 {

@@ -28,6 +28,8 @@ namespace Ui {
     class KBookocr;
 }
 
+using namespace KSaneIface;
+
 class KBookocr : public QMainWindow
 {
     Q_OBJECT
@@ -61,10 +63,11 @@ public slots:
     //void scanComplete(const QImage&,int);
     void OCRComplete(QString);
     void OCRProcess(int);
-    void scanerReady(const QByteArray&,int,int,int,int);
+    void scanerReady(QByteArray&,int,int,int,int);
     void saveDone(QString);
     void loadFilesReady();
     void djvuReady();
+    //void scanerListReady(const QList< KSaneWidget::DeviceInfo > & );
 
 
 private:

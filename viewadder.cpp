@@ -35,17 +35,17 @@ bool viewAdder::addView(Document *doc, int n)
     //emit this->newImgDone(doc->getPage(n));
     return true;
     //````
-    if (doc)
+    /*if (doc)
     {
         //int t = n;
-        ViewWidget* view = new ViewWidget(this->getNewId(),/*this->parr*/0,doc,n);
+        ViewWidget* view = new ViewWidget(this->getNewId(),/*this->parr*///0,doc,n);
         //ui->scrollAreaWidgetContents_2->children().append();
         //la->addWidget(view);
-        emit this->newViewReady(view);
+        /*emit this->newViewReady(view);
         //this->widgetVector << view;
         return true;
     }
-    return false;
+    return false;*/
 }
 
 int viewAdder::getWidgetCount()
@@ -59,6 +59,7 @@ ViewWidget* viewAdder::getWidgetAt(int n)
     {
         return this->widgetVector.at(n);
     }
+    return 0;
 }
 
 int viewAdder::getNewId()
