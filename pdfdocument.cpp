@@ -102,7 +102,7 @@ QImage pdfDocument::getPage(int n)
         //doc->page(n)->
         double xy = this->doc->page(n)->pageSize().height()/
                 this->doc->page(n)->pageSize().width();
-        double x = 150;
+        double x = 70;
         double y = x*xy;
         return doc->page(n)->renderToImage(x,y);
         //return this->getRealPage(n);

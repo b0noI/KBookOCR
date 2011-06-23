@@ -12,7 +12,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         kbookocr.cpp \
-    convertingtoimgwite.cpp \
     document.cpp \
     view.cpp \
     viewwidget.cpp \
@@ -27,7 +26,6 @@ SOURCES += main.cpp\
 
 HEADERS  += kbookocr.h \
     enum.h \
-    convertingtoimgwite.h \
     document.h \
     view.h \
     viewwidget.h \
