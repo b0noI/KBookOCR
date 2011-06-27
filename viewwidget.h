@@ -24,6 +24,8 @@ public:
     bool isChecked();
     bool saveImg(QString);
     bool setChecked(bool);
+    bool rotateLeft();
+    bool rotateRight();
 
 signals:
     void deleted(int);
@@ -38,12 +40,18 @@ private slots:
 
     void on_label_view_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::ViewWidget *ui;
     int __ID;
     int pageNumber;
     bool setImg(QImage);
     bool setImg();
+
+    void icoLoad();
 };
 
 #endif // VIEWWIDGET_H

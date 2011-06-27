@@ -6,8 +6,9 @@
 #include <QFileInfo>
 
 #include <libksane/ksane.h>
-//#include <KDE/KScanDialog>
-//#include <kscan.h>
+#include <kiconloader.h>
+#include <kmainwindow.h>
+#include <kdialog.h>
 
 #include "enum.h"
 #include "convertingtoimgwite.h"
@@ -30,7 +31,8 @@ namespace Ui {
 
 using namespace KSaneIface;
 
-class KBookocr : public QMainWindow
+//class KBookocr : public QMainWindow
+class KBookocr : public KMainWindow
 {
     Q_OBJECT
 
@@ -67,6 +69,8 @@ public slots:
     void saveDone(QString);
     void loadFilesReady();
     void djvuReady();
+    void showAboutKDE();
+    void showDonate();
     //void scanerListReady(const QList< KSaneWidget::DeviceInfo > & );
 
 
@@ -94,6 +98,8 @@ private:
     bool startOpenDJVU(QString);
 
     Ui::KBookocr *ui;
+
+    KIconLoader* iconLoader;
 
     //convertingToImgWite* convToImg;
 
@@ -154,11 +160,12 @@ private:
     //bool addView(Document*,int);
     int idCount;
     int getNewId();
+    void makeToolbox();
 
 
 private slots:
 
-    void on_pushButton_5_clicked();
+    void showAbout();
     void on_horizontalSlider_sliderReleased();
     void on_pushButton_4_clicked();
     void on_horizontalSlider_valueChanged(int value);
@@ -177,10 +184,10 @@ private slots:
     //void on_pushButton_3_clicked();
 
     //void on_pushButton_clicked();
-    void on_pushButton_6_clicked();
-    void on_pushButton_7_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_8_clicked();
+    void addFileToProject();
+    void scanImg();
+    void startOCRToFile();
+    void startOCRToEditor();
     void on_spinBox_2_editingFinished();
     void on_verticalScrollBar_valueChanged(int value);
     void on_label_view1_linkActivated(QString link);
@@ -196,9 +203,9 @@ private slots:
     void on_radioButton_8_clicked();
     void on_horizontalSlider_actionTriggered(int action);
     void on_pushButton_9_clicked();
-    void on_pushButton_10_clicked();
+    void saveProject();
     void on_pushButton_12_clicked();
-    void on_pushButton_11_clicked();
+    void openProject();
 };
 
 #endif // KBOOKOCR_H

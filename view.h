@@ -20,11 +20,14 @@ protected:
     Document* doc;
     int page;
     int realPage;
+    int rotate; // 0 - up, 1 - right, 2 - down, 3 - left
+    int getRotateAngel();
 
 private:
     QString getImgDir();
     //QImage img;
     QString path;
+
 
 
 

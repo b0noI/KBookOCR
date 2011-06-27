@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>145</width>
-    <height>184</height>
+    <width>143</width>
+    <height>182</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -43,12 +43,11 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Delete</string>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="ico.qrc">
-         <normaloff>:/ico/files/ico/designkode-free-icons/delete.png</normaloff>:/ico/files/ico/designkode-free-icons/delete.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -63,12 +62,49 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Download</string>
+       </property>
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="ico.qrc">
-         <normaloff>:/ico/files/ico/designkode-free-icons/arrow-down.png</normaloff>:/ico/files/ico/designkode-free-icons/arrow-down.png</iconset>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Rotate left</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Rotate right</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -92,8 +128,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="ico.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

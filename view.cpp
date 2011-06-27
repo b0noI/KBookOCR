@@ -64,6 +64,7 @@ View::View(QImage img, Document* doc, int page)
     this->setView(img);
     this->doc = doc;
     this->realPage = page;
+    this->rotate = 0;
 }
 
 View::View(Document *doc, int n) :
@@ -71,6 +72,7 @@ View::View(Document *doc, int n) :
     page(n),
     realPage(n)
 {
+    this->rotate = 0;
     if (doc->isOpened() && doc->getPageCount()+1 > n && n > 0)
     {
         this->doc = doc;
@@ -100,7 +102,15 @@ QImage View::getView()
     //return this->img;
     QImage img;
     img.load(this->path);
-    return img;
+
+    if (this->getRotateAngel() != 0)
+    {
+        //QImage img = this->doc->getRealPage(this->realPage);
+        QTransform tr;
+        tr.rotate(this->getRotateAngel());
+        return img.transformed(tr);
+    }else
+        return img;
 
 }
 
@@ -108,4 +118,30 @@ QImage View::getPreview(QSize size)
 {
     return this->getView().scaled(size);
     //return this->doc->getPreview(this->page);
+}
+
+int View::getRotateAngel()
+{
+    switch(this->rotate)
+    {
+    case 0:
+        return 0;
+        break;
+
+    case 1:
+        return 90;
+        break;
+
+    case 2:
+        return 180;
+        break;
+
+    case 3:
+        return -90;
+        break;
+
+    default:
+        return 0;
+        break;
+    };
 }

@@ -12,6 +12,19 @@
 #include <QSettings>
 #include <QDialog>
 #include <QSpacerItem>
+#include <QAction>
+
+
+#include <KDE/KToolBar>
+#include <KDE/KAboutApplicationDialog>
+#include <KDE/KGlobal>
+#include <KDE/KComponentData>
+#include <KDE/KAction>
+#include <KDE/KIcon>
+//#include <
+//#include <kdialog.h>
+
+
 
 //#include <djvudocument.h>
 
@@ -20,11 +33,13 @@
 #include "djvudocument.h"
 
 #include <kurl.h>
+#include <kicon.h>
 
 #include <poppler/qt4/poppler-qt4.h>
 
 KBookocr::KBookocr(QWidget *parent) :
-    QMainWindow(parent),
+    //QMainWindow(parent),
+    KMainWindow(parent),
     ui(new Ui::KBookocr),
     //pdf (true),
     //open(false),
@@ -37,6 +52,7 @@ KBookocr::KBookocr(QWidget *parent) :
     saver(0),
     loader(0),
     convertDjvu2Pdf(0)
+    //iconLoader(this)
     //currentDoc(this)
 {
 
@@ -44,6 +60,9 @@ KBookocr::KBookocr(QWidget *parent) :
 
     ui->setupUi(this);
 
+    iconLoader = KIconLoader::global();
+
+    this->makeToolbox();
 
     QString dirPath = QDir::tempPath() +
             QDir::separator() +
@@ -55,6 +74,8 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->groupBox_4->setVisible(false);
     ui->groupBox_5->setVisible(false);
     ui->groupBox_7->setVisible(false);
+
+    //KSaneIface::KSaneWidget* t = KSaneIface::KSaneWidget()
 
     connect (&this->scanerWidget,SIGNAL(imageReady(QByteArray&,int,int,int,int)),this,SLOT(scanerReady(QByteArray&,int,int,int,int)));
     //connect (&this->scanerWidget,SIGNAL())
@@ -118,6 +139,94 @@ KBookocr::KBookocr(QWidget *parent) :
     //connect (this->viewWidgets,SIGNAL())
 }
 
+void KBookocr::makeToolbox()
+{
+    //KIcon ico("load");
+    //ico.
+
+    KToolBar *kToolBar = new KToolBar("main ToolBar",this);
+    kToolBar->setMovable(true);
+    this->addToolBar(kToolBar);
+
+    kToolBar->addWidget(new QLabel("<b>Step #1:</b>"));
+    KAction* addDoc =// new QAction(this);
+            new KAction(KIcon(
+                            iconLoader->loadIcon(QString("document-open-data"),(KIconLoader::Group)4)
+                            //ico
+                            ),
+                        tr("Add \nfile"), this);
+
+    connect (addDoc, SIGNAL(triggered()),this,SLOT(addFileToProject()));
+
+    kToolBar->addAction(addDoc);
+
+    KAction* scanDoc =// new QAction(this);
+            new KAction(KIcon(
+                            //":/ico/files/icons32/from_scanner.png"
+                            iconLoader->loadIcon(QString("scanner"),(KIconLoader::Group)4)
+                            ),
+                        tr("&Scan \nimage"), this);
+
+    connect (scanDoc,SIGNAL(triggered()),this,SLOT(scanImg()));
+
+    kToolBar->addAction(scanDoc);
+
+    kToolBar->addSeparator();
+    kToolBar->addWidget(new QLabel("<b>Step #2:</b>"));
+
+    KAction* toFile =// new QAction(this);
+            new KAction(KIcon(
+                            //":/ico/files/icons32/ocr_to_file.png"
+                                   iconLoader->loadIcon(QString("document-save"),(KIconLoader::Group)4)
+                            ),
+                        tr("&OCR to: \nfile"), this);
+
+    connect (toFile,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
+
+    kToolBar->addAction(toFile);
+
+    KAction* toEditor =// new QAction(this);
+            new KAction(KIcon(
+                            //":/ico/files/icons32/open_in_editor.png"
+                                   iconLoader->loadIcon(QString("accessories-text-editor"),(KIconLoader::Group)4)
+                            ),
+                        tr("&OCR to: \neditor"), this);
+
+    connect (toEditor,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
+
+    kToolBar->addAction(toEditor);
+    kToolBar->addSeparator();
+
+    // MENU
+    ui->actionTool_box->setCheckable(true);
+    ui->actionTool_box->setChecked(true);
+
+    connect (ui->actionOpen_project,SIGNAL(triggered()),this,SLOT(openProject()));
+    connect (ui->actionSave_project,SIGNAL(triggered()),this,SLOT(saveProject()));
+    connect (ui->actionAbout_KBookOCR,SIGNAL(triggered()),this,SLOT(showAbout()));
+    connect (ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect (ui->actionDonate,SIGNAL(triggered()),this, SLOT(showDonate()));
+    connect (ui->actionTool_box, SIGNAL(triggered(bool)),kToolBar,SLOT(setShown(bool)));
+    connect (kToolBar, SIGNAL(visibilityChanged(bool)),ui->actionTool_box,SLOT(setChecked(bool)));
+    connect (ui->actionFile,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
+    connect (ui->actionEditor,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
+    connect (ui->actionFrom_scaner,SIGNAL(triggered()),this,SLOT(scanImg()));
+    connect (ui->actionFile_2, SIGNAL(triggered()),this,SLOT(addFileToProject()));
+
+}
+
+void KBookocr::showAboutKDE()
+{
+    //KDialog::~QWidget()
+}
+
+void KBookocr::showDonate()
+{
+    QMessageBox::information(this,"KBookOCR",
+                             QString("For donations (via PayPal) visit:\n")+
+                             QString("<a href\"http://opendesktop.org/content/donate.php?content=135361\">http://opendesktop.org/content/donate.php?content=135361</a>"));
+}
+
 void KBookocr::scanerReady(QByteArray &ba, int n1, int n2, int n3, int n4)
 {
     // format = this->scanerWidget;
@@ -134,7 +243,11 @@ void KBookocr::selectedViewId(int id)
     for (int i=0;i<this->getPageCount();i++)
         if (this->viewWidgets.at(i)->get_Id() == id)
         {
+            if (i+1 == ui->spinBox_3->value())
+                this->on_spinBox_3_valueChanged(i+1);
+
             ui->spinBox_3->setValue(i+1);
+
             ui->radioButton_3->setChecked(true);
             return;
         }
@@ -1024,16 +1137,17 @@ QList<int> KBookocr::makeListOfMarkedPages()
 */
 QString KBookocr::getVersion()
 {
-    return "2.0";
+    //return "2.1";
 }
 
-void KBookocr::on_pushButton_5_clicked()
+void KBookocr::showAbout()
 {
     //QString t = "dfhd";
     //t;
 
-    QMessageBox::information(this,"KBookOCR","version "+this->getVersion()+" <p><a href=\"http://kbookocr.blogspot.com/ \">HomePage</a> <p>Based on <b>cuneiform</b> <p><p>Blog:  <a href=\"http://mr-protos.ya.ru/ \">mr-protos</a> <p>Blog:  <a href=\"http://b0noI.ya.ru\">b0noI</a>"+
-                             "<p> Icons are used from \"Farm-Fresh Web Icons\" set <p>http://www.fatcow.com/free-icon");
+   // QMessageBox::information(this,"KBookOCR","version "+this->getVersion()+" <p><a href=\"http://kbookocr.blogspot.com/ \">HomePage</a> <p>Based on <b>cuneiform</b> <p><p>Blog:  <a href=\"http://mr-protos.ya.ru/ \">mr-protos</a> <p>Blog:  <a href=\"http://b0noI.ya.ru\">b0noI</a>"+
+     //                        "<p> Icons are used from \"Farm-Fresh Web Icons\" set <p>http://www.fatcow.com/free-icon");
+    KAboutApplicationDialog((KGlobal::mainComponent()).aboutData(),0).exec();
 }
 
 /*void KBookocr::setVisibleScanOrFile(bool n) // true - file, false - scaner
@@ -1250,7 +1364,7 @@ bool KBookocr::isImg(QFileInfo inf)
     return false;
 }
 
-void KBookocr::on_pushButton_6_clicked()
+void KBookocr::addFileToProject()
 {
     //this->setVisibleScanOrFile(true);
 
@@ -1411,7 +1525,7 @@ bool KBookocr::isFileMode()
     return this->saveToFile;
 }
 
-void KBookocr::on_pushButton_7_clicked()
+void KBookocr::scanImg()
 {
     //this->setVisibleScanOrFile(false);
     //this->getScanPreview();
@@ -1479,7 +1593,7 @@ void KBookocr::on_pushButton_7_clicked()
     ui->label_3->setPixmap(pm);
 }*/
 
-void KBookocr::on_pushButton_2_clicked()
+void KBookocr::startOCRToFile()
 {
     if (this->adder)
     {
@@ -1614,7 +1728,7 @@ QString KBookocr::getWorkDir()
     return dirPath;
 }
 
-void KBookocr::on_pushButton_8_clicked()
+void KBookocr::startOCRToEditor()
 {
     if (this->adder)
     {
@@ -1935,7 +2049,7 @@ void KBookocr::on_pushButton_9_clicked()
     }
 }
 
-void KBookocr::on_pushButton_10_clicked()
+void KBookocr::saveProject()
 {
     QString path = QFileDialog::getSaveFileName(this,"KBookOCR","~","KBookOCR save file (*.kb)");
     if (!path.isEmpty())
@@ -1966,7 +2080,7 @@ void KBookocr::on_pushButton_12_clicked()
     ui->groupBox_7->setVisible(false);
 }
 
-void KBookocr::on_pushButton_11_clicked()
+void KBookocr::openProject()
 {
     QString path = QFileDialog::getOpenFileName(this,
                                                 "KBookOCR","~",
