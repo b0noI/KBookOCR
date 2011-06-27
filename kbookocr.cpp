@@ -61,6 +61,7 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->setupUi(this);
 
     iconLoader = KIconLoader::global();
+    this->load();
 
     this->makeToolbox();
 
@@ -197,6 +198,23 @@ void KBookocr::makeToolbox()
     kToolBar->addAction(toEditor);
     kToolBar->addSeparator();
 
+    ui->pushButton_3->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
+    ui->pushButton_12->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
+    ui->pushButton_4->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
+    /*ui->pushButton_2->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("media-playback-pause"),(KIconLoader::Group)4)
+                                  ));*/
+
+
     // MENU
     ui->actionTool_box->setCheckable(true);
     ui->actionTool_box->setChecked(true);
@@ -285,7 +303,7 @@ int KBookocr::getNewId()
 
 KBookocr::~KBookocr()
 {
-  //  this->save();
+    this->save();
 
 
     if (this->loader)
@@ -343,7 +361,16 @@ KBookocr::~KBookocr()
     delete ui;
 }
 
-/*void KBookocr::load()
+void KBookocr::load()
+{
+    QSettings settings("KBookOCR", "GUI");
+    if (settings.allKeys().contains("language"))
+    {
+        ui->comboBox->setCurrentIndex(settings.value("language").toInt());
+    }
+}
+
+/*old Load
 {
     QSettings settings("KBookOCR", "snapShot");
     if (settings.allKeys().contains("load"))
@@ -384,7 +411,13 @@ KBookocr::~KBookocr()
     }
 }*/
 
-/*void KBookocr::save()
+void KBookocr::save()
+{
+    QSettings settings("KBookOCR", "GUI");
+    settings.setValue("language",ui->comboBox->currentIndex());
+}
+
+/*old Save
 {
     QSettings settings("KBookOCR", "snapShot");
     /*if (this->isFileMode())
@@ -2122,5 +2155,20 @@ void KBookocr::loadFilesReady()
     //this->adder->start
     this->adder->Execute();
     }
+
+    /*if (this->adder)
+    {
+        if (this->adder->isRunning())
+            this->adder->wait();
+        else
+            this->adder->sleep();
+    }*/
 }
                                                     
+//void KBookocr::on_pushButton_2_clicked()
+void KBookocr::on_pushButton_2_clicked()
+{
+    //if (this->adder)
+
+
+}

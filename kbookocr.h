@@ -133,8 +133,8 @@ private:
     //void openFiles();
     //void scanAndOCR();
     //void OCRFromFile();
-    //void load();
-    //void save();
+    void load();
+    void save();
     //QString formImgFromPdf();
     //QString scanToFile();
 
@@ -206,6 +206,7 @@ private slots:
     void saveProject();
     void on_pushButton_12_clicked();
     void openProject();
+    void on_pushButton_2_clicked();
 };
 
 #endif // KBOOKOCR_H

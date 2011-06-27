@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>853</width>
-    <height>559</height>
+    <width>851</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -55,8 +55,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>271</width>
-           <height>489</height>
+           <width>269</width>
+           <height>487</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -466,12 +466,17 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_12">
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string/>
            </property>
-           <property name="icon">
-            <iconset resource="ico.qrc">
-             <normaloff>:/ico/files/ico/designkode-free-icons/delete.png</normaloff>:/ico/files/ico/designkode-free-icons/delete.png</iconset>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -521,12 +526,17 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_4">
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string/>
            </property>
-           <property name="icon">
-            <iconset resource="ico.qrc">
-             <normaloff>:/ico/files/ico/designkode-free-icons/delete.png</normaloff>:/ico/files/ico/designkode-free-icons/delete.png</iconset>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -687,12 +697,17 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_3">
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string/>
            </property>
-           <property name="icon">
-            <iconset resource="ico.qrc">
-             <normaloff>:/ico/files/ico/designkode-free-icons/delete.png</normaloff>:/ico/files/ico/designkode-free-icons/delete.png</iconset>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -716,7 +731,7 @@
            <x>0</x>
            <y>0</y>
            <width>166</width>
-           <height>432</height>
+           <height>434</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -750,7 +765,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>853</width>
+     <width>851</width>
      <height>20</height>
     </rect>
    </property>
