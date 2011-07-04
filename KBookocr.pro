@@ -43,7 +43,7 @@ FORMS    += kbookocr.ui \
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4 \
-/usr/lib/libksane.so
+		-lksane
 
 RESOURCES += \
     ico.qrc
