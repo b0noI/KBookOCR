@@ -21,6 +21,7 @@
 #include <KDE/KComponentData>
 #include <KDE/KAction>
 #include <KDE/KIcon>
+#include <KDE/KComboBox>
 //#include <
 //#include <kdialog.h>
 
@@ -59,11 +60,21 @@ KBookocr::KBookocr(QWidget *parent) :
 
 
     ui->setupUi(this);
+    this->langComboBox = new KComboBox(this);
+    this->layoutCheckBox = new QCheckBox("OCR layout",this);
+    this->layoutCheckBox->setChecked(true);
+
+    //ui->verticalLayout->addWidget(new QPushButton("OCR to file"));
+
+
+    ui->pageComboBox->setCurrentIndex(2);
+    ui->pageComboBox->setCurrentIndex(0);
 
     iconLoader = KIconLoader::global();
     this->load();
 
     this->makeToolbox();
+    this->iconsSet();
 
     QString dirPath = QDir::tempPath() +
             QDir::separator() +
@@ -75,6 +86,8 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->groupBox_4->setVisible(false);
     ui->groupBox_5->setVisible(false);
     ui->groupBox_7->setVisible(false);
+    ui->groupBox_6->setVisible(false);
+    ui->groupBox_3->setVisible(false);
 
     //KSaneIface::KSaneWidget* t = KSaneIface::KSaneWidget()
 
@@ -92,6 +105,7 @@ KBookocr::KBookocr(QWidget *parent) :
     //}
 
     ui->groupBox->setVisible(false);
+    ui->groupBox_2->setVisible(false);
     //ui->groupBox->
     //ui->label_11->setVisible(false);
 
@@ -140,16 +154,27 @@ KBookocr::KBookocr(QWidget *parent) :
     //connect (this->viewWidgets,SIGNAL())
 }
 
+void KBookocr::iconsSet()
+{
+    QPixmap pm = QIcon(iconLoader->loadIcon(QString("page-zoom"),(KIconLoader::Group)4)).pixmap(20);
+    ui->label_7->setPixmap(pm);
+}
+
 void KBookocr::makeToolbox()
 {
     //KIcon ico("load");
     //ico.
 
     KToolBar *kToolBar = new KToolBar("main ToolBar",this);
-    kToolBar->setMovable(true);
-    this->addToolBar(kToolBar);
+    KToolBar *kOCRToolBar = new KToolBar("OCR toolBar",this);
 
-    kToolBar->addWidget(new QLabel("<b>Step #1:</b>"));
+    kToolBar->setMovable(true);
+    kOCRToolBar->setMovable(true);
+
+    this->addToolBar(kToolBar);
+    this->addToolBar(kOCRToolBar);
+
+    //kToolBar->addWidget(new QLabel("<b>Step #1:</b>"));
     KAction* addDoc =// new QAction(this);
             new KAction(KIcon(
                             iconLoader->loadIcon(QString("document-open-data"),(KIconLoader::Group)4)
@@ -172,8 +197,8 @@ void KBookocr::makeToolbox()
 
     kToolBar->addAction(scanDoc);
 
-    kToolBar->addSeparator();
-    kToolBar->addWidget(new QLabel("<b>Step #2:</b>"));
+    //kToolBar->addSeparator();
+    //kToolBar->addWidget(new QLabel("<b>Step #2:</b>"));
 
     KAction* toFile =// new QAction(this);
             new KAction(KIcon(
@@ -184,7 +209,7 @@ void KBookocr::makeToolbox()
 
     connect (toFile,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
 
-    kToolBar->addAction(toFile);
+    kOCRToolBar->addAction(toFile);
 
     KAction* toEditor =// new QAction(this);
             new KAction(KIcon(
@@ -195,7 +220,50 @@ void KBookocr::makeToolbox()
 
     connect (toEditor,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
 
-    kToolBar->addAction(toEditor);
+    kOCRToolBar->addAction(toEditor);
+    kToolBar->addSeparator();
+    QLabel *langLabel = new QLabel("<b>Project language:</b>", this);
+    kToolBar->addWidget(langLabel);
+
+    //this->langComboBox->setItemText(0,"ruseng");
+    /*QStringList langs;
+    langs << "ruseng"
+          << "rus"
+          << "ukr"
+          << "eng"*/
+    this->langComboBox->addItems(
+                QStringList()
+                         << QApplication::translate("KBookocr", "ruseng", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "rus", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "ukr", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "eng", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "ger", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "fra", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "swe", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "spa", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "ita", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "srp", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "hrv", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "pol", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "dan", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "por", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "dut", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "cze", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "rum", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "hun", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "bul", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "slo", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "lav", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "lit", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "est", 0, QApplication::UnicodeUTF8)
+                         << QApplication::translate("KBookocr", "tur", 0, QApplication::UnicodeUTF8)
+                );
+
+    //this->langComboBox->
+
+    kToolBar->addWidget(this->langComboBox);
+
+    kToolBar->addWidget(this->layoutCheckBox);
     kToolBar->addSeparator();
 
     ui->pushButton_3->setIcon(QIcon(
@@ -225,7 +293,9 @@ void KBookocr::makeToolbox()
     connect (ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect (ui->actionDonate,SIGNAL(triggered()),this, SLOT(showDonate()));
     connect (ui->actionTool_box, SIGNAL(triggered(bool)),kToolBar,SLOT(setShown(bool)));
+    connect (ui->actionShow_OCR_toolbar, SIGNAL(triggered(bool)),kOCRToolBar,SLOT(setShown(bool)));
     connect (kToolBar, SIGNAL(visibilityChanged(bool)),ui->actionTool_box,SLOT(setChecked(bool)));
+    connect (kOCRToolBar, SIGNAL(visibilityChanged(bool)),ui->actionShow_OCR_toolbar,SLOT(setChecked(bool)));
     connect (ui->actionFile,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
     connect (ui->actionEditor,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
     connect (ui->actionFrom_scaner,SIGNAL(triggered()),this,SLOT(scanImg()));
@@ -241,8 +311,7 @@ void KBookocr::showAboutKDE()
 void KBookocr::showDonate()
 {
     QMessageBox::information(this,"KBookOCR",
-                             QString("For donations (via PayPal) visit:\n")+
-                             QString("<a href\"http://opendesktop.org/content/donate.php?content=135361\">http://opendesktop.org/content/donate.php?content=135361</a>"));
+                             "For donations (via PayPal) visit:\nhttp://opendesktop.org/content/donate.php?content=135361");
 }
 
 void KBookocr::scanerReady(QByteArray &ba, int n1, int n2, int n3, int n4)
@@ -366,7 +435,7 @@ void KBookocr::load()
     QSettings settings("KBookOCR", "GUI");
     if (settings.allKeys().contains("language"))
     {
-        ui->comboBox->setCurrentIndex(settings.value("language").toInt());
+        this->langComboBox->setCurrentIndex(settings.value("language").toInt());
     }
 }
 
@@ -414,7 +483,7 @@ void KBookocr::load()
 void KBookocr::save()
 {
     QSettings settings("KBookOCR", "GUI");
-    settings.setValue("language",ui->comboBox->currentIndex());
+    settings.setValue("language",this->langComboBox->currentIndex());
 }
 
 /*old Save
@@ -481,7 +550,7 @@ void KBookocr::save()
 bool KBookocr::setPathToSave()
 {
     QString tmp;
-    tmp = QFileDialog::getSaveFileName(this,"Save file", "~", ui->checkBox->isChecked() ? "HTML (*.html)" : "TXT (*.txt)");
+    tmp = QFileDialog::getSaveFileName(this,"Save file", "~", this->layoutCheckBox->isChecked() ? "HTML (*.html)" : "TXT (*.txt)");
     if (tmp.isEmpty())
         return false;
     this->pathToSave = tmp;
@@ -1644,7 +1713,7 @@ void KBookocr::startOCRToFile()
             if (this->OCR)
                 delete this->OCR;
 
-            this->OCR = new OCRThread(this,this->getWorkDir(),ui->comboBox->currentText(),ui->checkBox->isChecked());
+            this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked());
             connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
             connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
             this->OCR->start();
@@ -1778,7 +1847,7 @@ void KBookocr::startOCRToEditor()
         if (this->OCR)
             delete this->OCR;
 
-        this->OCR = new OCRThread(this,this->getWorkDir(),ui->comboBox->currentText(),ui->checkBox->isChecked());
+        this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked());
         connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
         connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
         this->OCR->start();
@@ -2166,9 +2235,104 @@ void KBookocr::loadFilesReady()
 }
                                                     
 //void KBookocr::on_pushButton_2_clicked()
-void KBookocr::on_pushButton_2_clicked()
+/*void KBookocr::on_pushButton_2_clicked()
 {
     //if (this->adder)
 
 
+}*/
+
+/*void KBookocr::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+
+}*/
+
+void KBookocr::on_pageComboBox_currentIndexChanged(int index)
+{
+    switch (index)
+    {
+        case 0:
+        ui->radioButton->setChecked(true);
+        ui->label->setVisible(false);
+        ui->spinBox->setVisible(false);
+        ui->label_2->setVisible(false);
+        ui->spinBox_2->setVisible(false);
+        break;
+
+        case 1:
+        ui->radioButton_2->setChecked(true);
+        ui->label->setVisible(true);
+        ui->spinBox->setVisible(true);
+        ui->label_2->setVisible(true);
+        ui->spinBox_2->setVisible(true);
+        break;
+
+        case 2:
+        ui->radioButton_3->setChecked(true);
+        ui->label->setVisible(false);
+        ui->spinBox->setVisible(false);
+        ui->label_2->setVisible(false);
+        ui->spinBox_2->setVisible(false);
+        break;
+    };
+}
+
+void KBookocr::on_radioButton_clicked()
+{
+    ui->pageComboBox->setCurrentIndex(0);
+}
+
+void KBookocr::on_radioButton_2_clicked()
+{
+    ui->pageComboBox->setCurrentIndex(1);
+}
+
+void KBookocr::on_radioButton_3_clicked()
+{
+    ui->pageComboBox->setCurrentIndex(2);
+}
+
+/*void KBookocr::on_radioButton_clicked()
+{
+
+}*/
+
+void KBookocr::on_radioButton_toggled(bool checked)
+{
+    if (checked)
+     ui->pageComboBox->setCurrentIndex(0);
+}
+
+void KBookocr::on_radioButton_2_toggled(bool checked)
+{
+    if (checked)
+     ui->pageComboBox->setCurrentIndex(1);
+}
+
+void KBookocr::on_radioButton_3_toggled(bool checked)
+{
+    if (checked)
+     ui->pageComboBox->setCurrentIndex(2);
+}
+
+void KBookocr::on_pageComboBox_currentIndexChanged(const QString &arg1)
+{
+
+}
+
+void KBookocr::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+
+}
+
+void KBookocr::on_pushButton_5_clicked()
+{
+    ui->radioButton_6->setChecked(true);
+    this->on_radioButton_6_clicked();
+}
+
+void KBookocr::on_pushButton_2_clicked()
+{
+    ui->radioButton_5->setChecked(true);
+    this->on_radioButton_5_clicked();
 }

@@ -4,11 +4,13 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QFileInfo>
+#include <QCheckBox>
 
 #include <libksane/ksane.h>
-#include <kiconloader.h>
-#include <kmainwindow.h>
-#include <kdialog.h>
+#include <KDE/KIconLoader>
+#include <KDE/KMainWindow>
+#include <KDE/KComboBox>
+//#include <kdialog.h>
 
 #include "enum.h"
 #include "convertingtoimgwite.h"
@@ -27,6 +29,7 @@
 
 namespace Ui {
     class KBookocr;
+
 }
 
 using namespace KSaneIface;
@@ -98,6 +101,8 @@ private:
     bool startOpenDJVU(QString);
 
     Ui::KBookocr *ui;
+    KComboBox *langComboBox;
+    QCheckBox *layoutCheckBox;
 
     KIconLoader* iconLoader;
 
@@ -116,6 +121,7 @@ private:
     QSize size;
     QSize baseSize;
     void setSize();
+    void iconsSet();
     //QProcess* bookOCRProcess;
     QProcess* openOfficeProcess;
     //QProcess* previewDJVUProcess;
@@ -207,6 +213,16 @@ private slots:
     void on_pushButton_12_clicked();
     void openProject();
     void on_pushButton_2_clicked();
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+    void on_pageComboBox_currentIndexChanged(int index);
+    void on_radioButton_clicked();
+    void on_radioButton_2_clicked();
+    void on_radioButton_3_clicked();
+    void on_radioButton_toggled(bool checked);
+    void on_radioButton_2_toggled(bool checked);
+    void on_radioButton_3_toggled(bool checked);
+    void on_pageComboBox_currentIndexChanged(const QString &arg1);
+    void on_pushButton_5_clicked();
 };
 
 #endif // KBOOKOCR_H

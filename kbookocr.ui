@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>851</width>
-    <height>557</height>
+    <width>839</width>
+    <height>545</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,7 +31,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="1">
+    <item row="3" column="1" rowspan="2">
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
@@ -55,8 +55,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>269</width>
-           <height>487</height>
+           <width>414</width>
+           <height>478</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -111,24 +111,90 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="suffix">
-         <string> / 0</string>
-        </property>
-        <property name="prefix">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QSpinBox" name="spinBox_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>95</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="suffix">
+           <string> / 0</string>
+          </property>
+          <property name="prefix">
+           <string>Pages: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="text">
+           <string>Small</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Original</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="horizontalSlider">
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>2</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
-    <item row="4" column="2">
+    <item row="3" column="2" rowspan="2">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
@@ -189,46 +255,10 @@
             </widget>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>From:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>to:</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <layout class="QVBoxLayout" name="verticalLayout_4"/>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QSpinBox" name="spinBox">
-               <property name="maximum">
-                <number>1000</number>
-               </property>
-               <property name="value">
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBox_2">
-               <property name="maximum">
-                <number>1000</number>
-               </property>
-               <property name="value">
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <layout class="QVBoxLayout" name="verticalLayout_5"/>
            </item>
           </layout>
          </item>
@@ -294,7 +324,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox">
+            <widget class="QComboBox" name="langQComboBox">
              <item>
               <property name="text">
                <string>ruseng</string>
@@ -420,7 +450,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="layoutQCheckBox">
            <property name="text">
             <string>Layout OCR</string>
            </property>
@@ -439,14 +469,20 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>20</width>
+          <width>0</width>
           <height>40</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_7">
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>175</width>
@@ -454,62 +490,52 @@
          </size>
         </property>
         <property name="title">
-         <string>Saving</string>
+         <string>Preview</string>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
-          <widget class="QProgressBar" name="progressBar_4">
-           <property name="value">
-            <number>24</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_12">
-           <property name="maximumSize">
-            <size>
-             <width>20</width>
-             <height>16777215</height>
-            </size>
-           </property>
+          <widget class="QRadioButton" name="radioButton_6">
            <property name="text">
-            <string/>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
+            <string>Small</string>
            </property>
           </widget>
          </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="maximumSize">
-         <size>
-          <width>175</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Prepering to OCR</string>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QProgressBar" name="progressBar_3">
-           <property name="value">
-            <number>24</number>
+          <widget class="QRadioButton" name="radioButton_5">
+           <property name="text">
+            <string>Original</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QRadioButton" name="radioButton_8">
+             <property name="text">
+              <string>Manual:</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
       </item>
+     </layout>
+    </item>
+    <item row="3" column="0" rowspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
        <widget class="QGroupBox" name="groupBox_4">
         <property name="maximumSize">
          <size>
-          <width>175</width>
+          <width>170</width>
           <height>16777215</height>
          </size>
         </property>
@@ -544,125 +570,64 @@
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_6">
-        <property name="minimumSize">
-         <size>
-          <width>175</width>
-          <height>0</height>
-         </size>
-        </property>
+       <widget class="QGroupBox" name="groupBox_5">
         <property name="maximumSize">
          <size>
-          <width>175</width>
+          <width>170</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="title">
-         <string>Preview</string>
+         <string>Prepering to OCR</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_13">
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QRadioButton" name="radioButton_6">
-           <property name="text">
-            <string>Small</string>
+          <widget class="QProgressBar" name="progressBar_3">
+           <property name="value">
+            <number>24</number>
            </property>
           </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButton_5">
-           <property name="text">
-            <string>Original</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QRadioButton" name="radioButton_8">
-             <property name="text">
-              <string>Manual:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="horizontalSlider">
-             <property name="minimum">
-              <number>2</number>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item row="3" column="0" rowspan="2">
-     <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_11">
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>clear all</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_9">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>uncheck all</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="maximumSize">
+         <size>
+          <width>170</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Saving</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QProgressBar" name="progressBar_4">
+           <property name="value">
+            <number>24</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_12">
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox">
@@ -722,6 +687,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
@@ -731,7 +699,7 @@
            <x>0</x>
            <y>0</y>
            <width>166</width>
-           <height>434</height>
+           <height>168</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -756,6 +724,120 @@
         </widget>
        </widget>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Clear all</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_9">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Uncheck all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_8">
+        <property name="maximumSize">
+         <size>
+          <width>170</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Proceed:</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QComboBox" name="pageComboBox">
+           <item>
+            <property name="text">
+             <string>All</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>From/To</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Manual</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>From:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>to:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox_2">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -765,13 +847,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>851</width>
+     <width>839</width>
      <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Project</string>
+     <string>File</string>
     </property>
     <widget class="QMenu" name="menuOCR_to">
      <property name="title">
@@ -805,9 +887,10 @@
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>View</string>
     </property>
     <addaction name="actionTool_box"/>
+    <addaction name="actionShow_OCR_toolbar"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
@@ -849,8 +932,14 @@
    </property>
   </action>
   <action name="actionTool_box">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>tool box</string>
+    <string>show toolbar</string>
    </property>
   </action>
   <action name="actionOCR_to_File">
@@ -886,6 +975,17 @@
   <action name="actionFrom_scaner">
    <property name="text">
     <string>From scaner</string>
+   </property>
+  </action>
+  <action name="actionShow_OCR_toolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show OCR toolbar</string>
    </property>
   </action>
  </widget>

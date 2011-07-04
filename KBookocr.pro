@@ -39,8 +39,7 @@ HEADERS  += kbookocr.h \
     jpgdirdocument.h
 
 FORMS    += kbookocr.ui \
-    viewwidget.ui \
-    scanerdialog.ui
+    viewwidget.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4 \
@@ -52,4 +51,5 @@ RESOURCES += \
 OTHER_FILES += \
     kbookocr.ui (Case Conflict 1) \
     RoadMap.txt \
-    ../../../Progs/deb/kbookocr/DEBIAN/control
+    ../../../Progs/deb/kbookocr/DEBIAN/control \
+    KBookOCR_UI.qml
