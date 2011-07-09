@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     ocrthread.cpp \
     scanerdialog.cpp \
     savethread.cpp \
-    jpgdirdocument.cpp
+    jpgdirdocument.cpp \
+    rangedialog.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -36,10 +37,12 @@ HEADERS  += kbookocr.h \
     ocrthread.h \
     scanerdialog.h \
     savethread.h \
-    jpgdirdocument.h
+    jpgdirdocument.h \
+    rangedialog.h
 
 FORMS    += kbookocr.ui \
-    viewwidget.ui
+    viewwidget.ui \
+    rangedialog.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4 \

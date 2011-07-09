@@ -19,6 +19,7 @@
 #include "ocrthread.h"
 #include "savethread.h"
 #include "jpgdirdocument.h"
+#include "rangedialog.h"
 //#include "scanerdialog.h"
 
 // #include <poppler/PDFDoc.h>
@@ -74,6 +75,7 @@ public slots:
     void djvuReady();
     void showAboutKDE();
     void showDonate();
+    void rangeReady(int, int);
     //void scanerListReady(const QList< KSaneWidget::DeviceInfo > & );
 
 
@@ -99,10 +101,12 @@ private:
     bool removeDir(const QString&);
     bool startOpening(QString);
     bool startOpenDJVU(QString);
+    bool showRDialog();
 
     Ui::KBookocr *ui;
     KComboBox *langComboBox;
     QCheckBox *layoutCheckBox;
+    RangeDialog rDialog;
 
     KIconLoader* iconLoader;
 
@@ -169,6 +173,7 @@ private:
     void makeToolbox();
 
 
+
 private slots:
 
     void showAbout();
@@ -223,6 +228,8 @@ private slots:
     void on_radioButton_3_toggled(bool checked);
     void on_pageComboBox_currentIndexChanged(const QString &arg1);
     void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
 };
 
 #endif // KBOOKOCR_H

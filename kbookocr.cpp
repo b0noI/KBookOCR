@@ -88,6 +88,7 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->groupBox_7->setVisible(false);
     ui->groupBox_6->setVisible(false);
     ui->groupBox_3->setVisible(false);
+    ui->groupBox_8->setVisible(false);
 
     //KSaneIface::KSaneWidget* t = KSaneIface::KSaneWidget()
 
@@ -152,6 +153,19 @@ KBookocr::KBookocr(QWidget *parent) :
     */
 
     //connect (this->viewWidgets,SIGNAL())
+    connect (&(this->rDialog),SIGNAL(rangeReady(int,int)),this,SLOT(rangeReady(int,int)));
+}
+
+void KBookocr::rangeReady(int r1, int r2)
+{
+    if (r1 <= r2 && r1 > 0)
+    for (int i=r1-1;i<r2;i++)
+    {
+        if (i>=this->viewWidgets.count())
+            break;
+        if (i >= 0)
+            this->viewWidgets.at(i)->setChecked(true);
+    }
 }
 
 void KBookocr::iconsSet()
@@ -2151,6 +2165,13 @@ void KBookocr::on_pushButton_9_clicked()
     }
 }
 
+bool KBookocr::showRDialog()
+{
+    this->rDialog.clear();
+    this->rDialog.setMaximum(this->viewWidgets.count());
+    this->rDialog.show();
+}
+
 void KBookocr::saveProject()
 {
     QString path = QFileDialog::getSaveFileName(this,"KBookOCR","~","KBookOCR save file (*.kb)");
@@ -2335,4 +2356,15 @@ void KBookocr::on_pushButton_2_clicked()
 {
     ui->radioButton_5->setChecked(true);
     this->on_radioButton_5_clicked();
+}
+
+void KBookocr::on_pushButton_6_clicked()
+{
+    foreach (ViewWidget* view, this->viewWidgets)
+        view->setChecked(true);
+}
+
+void KBookocr::on_pushButton_7_clicked()
+{
+    this->showRDialog();
 }

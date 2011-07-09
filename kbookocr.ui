@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>545</height>
+    <width>837</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -56,7 +56,7 @@
            <x>0</x>
            <y>0</y>
            <width>414</width>
-           <height>478</height>
+           <height>476</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -699,7 +699,7 @@
            <x>0</x>
            <y>0</y>
            <width>166</width>
-           <height>168</height>
+           <height>137</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -767,6 +767,36 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <item>
+         <widget class="QPushButton" name="pushButton_7">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Check range</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_6">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Check all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QGroupBox" name="groupBox_8">
         <property name="maximumSize">
          <size>
@@ -782,17 +812,17 @@
           <widget class="QComboBox" name="pageComboBox">
            <item>
             <property name="text">
+             <string>Manual</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>All</string>
             </property>
            </item>
            <item>
             <property name="text">
              <string>From/To</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Manual</string>
             </property>
            </item>
           </widget>
@@ -847,7 +877,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>839</width>
+     <width>837</width>
      <height>20</height>
     </rect>
    </property>
