@@ -5,6 +5,8 @@
 #include <QProcess>
 #include <QFileInfo>
 #include <QCheckBox>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
 #include <libksane/ksane.h>
 #include <KDE/KIconLoader>
@@ -56,6 +58,7 @@ public:
     // new
     //bool openDoc(QString);
     // end new
+    static const QStringList mimeTypes;
 
     int getPageCount();
 public slots:
@@ -90,6 +93,8 @@ private:
     //KScanDialog* scanDialog;
 
     //bool toWriter;
+    void dropEvent(QDropEvent *);
+    void dragEnterEvent(QDragEnterEvent*);
 
     bool saveImages();
     bool saveAllImages();
@@ -196,6 +201,7 @@ private slots:
 
     //void on_pushButton_clicked();
     void addFileToProject();
+    bool addFileToProject(const QString&);
     void scanImg();
     void startOCRToFile();
     void startOCRToEditor();

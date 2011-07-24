@@ -60,6 +60,9 @@ KBookocr::KBookocr(QWidget *parent) :
 
 
     ui->setupUi(this);
+
+    this->setAcceptDrops(true);
+
     this->langComboBox = new KComboBox(this);
     this->layoutCheckBox = new QCheckBox("OCR layout",this);
     this->layoutCheckBox->setChecked(true);
@@ -156,6 +159,55 @@ KBookocr::KBookocr(QWidget *parent) :
     connect (&(this->rDialog),SIGNAL(rangeReady(int,int)),this,SLOT(rangeReady(int,int)));
 }
 
+const QStringList KBookocr::mimeTypes  = QStringList()
+    << "application/pdf"
+    << "image/vnd.djvu"
+    << "image/bmp"
+    << "image/jpeg"
+    << "image/x-png"
+    << "image/gif";
+
+void KBookocr::dragEnterEvent(QDragEnterEvent *event)
+{
+    //QString filePath = event->mimeData()->text();
+//    int as;
+
+    //if (event->mimeData()->hasFormat("text/plain"))
+    //    event->acceptProposedAction();
+    /*foreach (QString mime , KBookocr::mimeTypes)
+    {
+        if (event->mimeData()->hasFormat(mime))
+        {
+            event->acceptProposedAction();
+            break;
+        }
+    }*/
+    //QFileInfo inFileTmp(event->mimeData()->text());
+    //QFileInfo inFile(inFileTmp.filePath());
+    QFileInfo inFile(QUrl(event->mimeData()->text()).path());
+
+    if (inFile.exists() && (this->isImg(inFile) ||
+                            this->isPdf(inFile) ||
+                            this->isDjvu(inFile)))
+    //QFile in()
+
+    /*if (inFileTmp.suffix().toLower() == "pdf" ||
+            inFileTmp.suffix().toLower() == "djvu" ||
+            inFileTmp.suffix().toLower() == "bmp" ||
+            inFileTmp.suffix().toLower() == "jpeg" ||
+            inFileTmp.suffix().toLower() == "jpg" ||
+            inFileTmp.suffix().toLower() == "gif" )*/
+
+    {
+        event->acceptProposedAction();
+    }
+}
+
+// KBookocr::mimeTypes{
+
+
+//}
+
 void KBookocr::rangeReady(int r1, int r2)
 {
     if (r1 <= r2 && r1 > 0)
@@ -166,6 +218,25 @@ void KBookocr::rangeReady(int r1, int r2)
         if (i >= 0)
             this->viewWidgets.at(i)->setChecked(true);
     }
+}
+
+void KBookocr::dropEvent(QDropEvent *event)
+{
+    //QMessageBox::in
+    //QString tst = event->mimeData()->text();
+    //int as;
+    //textBrowser->setPlainText(event->mimeData()->text());
+    //mimeTypeCombo->clear();
+    //mimeTypeCombo->addItems(event->mimeData()->formats());
+    //event->acceptProposedAction();
+
+    QFileInfo inFile(QUrl(event->mimeData()->text()).path());
+
+    if (inFile.exists() && (this->isImg(inFile) ||
+                            this->isPdf(inFile) ||
+                            this->isDjvu(inFile)))
+        this->addFileToProject(inFile.filePath());
+
 }
 
 void KBookocr::iconsSet()
@@ -1480,6 +1551,32 @@ bool KBookocr::isImg(QFileInfo inf)
     return false;
 }
 
+bool KBookocr::addFileToProject(const QString& filePath)
+{
+    if (this->adder)
+    {
+        QMessageBox::warning(this,"KBookOCR","waite untill last book is adding");
+        return false;
+    }
+
+    QFileInfo inf(filePath);
+
+    if (!inf.exists())
+    {
+            QMessageBox::warning(this,"KBookOCR","File not found");
+            return false;
+    }
+
+    if (inf.suffix().toLower() == "djvu")
+    {
+        this->startOpenDJVU(filePath);
+        return true;
+    }
+
+    this->startOpening(filePath);
+    return true;
+}
+
 void KBookocr::addFileToProject()
 {
     //this->setVisibleScanOrFile(true);
@@ -1491,22 +1588,11 @@ void KBookocr::addFileToProject()
             this->addView(doc,i);
     }*/
     //if () TODO
-    if (this->adder)
-    {
-        QMessageBox::warning(this,"KBookOCR","waite untill last book is adding");
-        return ;
-    }
+
 
     QString filePath = QFileDialog::getOpenFileName(this,"Adding to project","~","All (*.jpg *.jpeg *.bmp *.png *.gif *.pdf *.djvu);;Book (*.pdf *.djvu);;Images (*.jpg *.jpeg *.bmp *.png *.gif)");
 
-    QFileInfo inf(filePath);
-    if (inf.suffix().toLower() == "djvu")
-    {
-        this->startOpenDJVU(filePath);
-        return ;
-    }
-
-    this->startOpening(filePath);
+    this->addFileToProject(filePath);
     //ui->lineEdit_2->setText(QFileDialog::getOpenFileName());
     //this->openFiles();
 }

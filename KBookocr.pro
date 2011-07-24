@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     imgclass.cpp \
     viewadder.cpp \
     ocrthread.cpp \
-    scanerdialog.cpp \
     savethread.cpp \
     jpgdirdocument.cpp \
     rangedialog.cpp
@@ -35,7 +34,6 @@ HEADERS  += kbookocr.h \
     imgclass.h \
     viewadder.h \
     ocrthread.h \
-    scanerdialog.h \
     savethread.h \
     jpgdirdocument.h \
     rangedialog.h
@@ -45,7 +43,7 @@ FORMS    += kbookocr.ui \
     rangedialog.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
-LIBS         += -L/usr/lib -lpoppler-qt4 \
+LIBS         += -lpoppler-qt4 \
 		-lksane
 
 RESOURCES += \

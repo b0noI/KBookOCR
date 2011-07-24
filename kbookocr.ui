@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
-    <height>543</height>
+    <width>833</width>
+    <height>539</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -55,8 +55,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>414</width>
-           <height>476</height>
+           <width>438</width>
+           <height>472</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -172,6 +172,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QSlider" name="horizontalSlider">
           <property name="maximumSize">
            <size>
@@ -187,6 +194,13 @@
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>+</string>
           </property>
          </widget>
         </item>
@@ -699,7 +713,7 @@
            <x>0</x>
            <y>0</y>
            <width>166</width>
-           <height>137</height>
+           <height>133</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -777,7 +791,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Check range</string>
+           <string>Select range</string>
           </property>
          </widget>
         </item>
@@ -877,7 +891,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>837</width>
+     <width>833</width>
      <height>20</height>
     </rect>
    </property>
