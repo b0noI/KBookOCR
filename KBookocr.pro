@@ -53,4 +53,5 @@ OTHER_FILES += \
     kbookocr.ui (Case Conflict 1) \
     RoadMap.txt \
     ../../../Progs/deb/kbookocr/DEBIAN/control \
-    KBookOCR_UI.qml
+    KBookOCR_UI.qml \
+    README.txt
