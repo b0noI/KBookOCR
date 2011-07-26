@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     ocrthread.cpp \
     savethread.cpp \
     jpgdirdocument.cpp \
-    rangedialog.cpp
+    rangedialog.cpp \
+    ocrkernel.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -36,7 +37,8 @@ HEADERS  += kbookocr.h \
     ocrthread.h \
     savethread.h \
     jpgdirdocument.h \
-    rangedialog.h
+    rangedialog.h \
+    ocrkernel.h
 
 FORMS    += kbookocr.ui \
     viewwidget.ui \
