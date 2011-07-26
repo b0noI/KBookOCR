@@ -19,7 +19,6 @@
 #include <KDE/KAboutApplicationDialog>
 #include <KDE/KGlobal>
 #include <KDE/KComponentData>
-#include <KDE/KAction>
 #include <KDE/KIcon>
 #include <KDE/KComboBox>
 //#include <
@@ -62,6 +61,19 @@ KBookocr::KBookocr(QWidget *parent) :
     ui->setupUi(this);
 
     this->setAcceptDrops(true);
+
+    ui->pushButton_3->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
+    ui->pushButton_12->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
+    ui->pushButton_4->setIcon(QIcon(
+                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
+                                  ));
+
 
     this->langComboBox = new KComboBox(this);
     this->layoutCheckBox = new QCheckBox("OCR layout",this);
@@ -245,22 +257,27 @@ void KBookocr::iconsSet()
     ui->label_7->setPixmap(pm);
 }
 
-void KBookocr::makeToolbox()
+void KBookocr::makeMenu()
 {
-    //KIcon ico("load");
-    //ico.
+    ui->actionTool_box->setCheckable(true);
+    ui->actionTool_box->setChecked(true);
 
-    KToolBar *kToolBar = new KToolBar("main ToolBar",this);
-    KToolBar *kOCRToolBar = new KToolBar("OCR toolBar",this);
+    connect (ui->actionOpen_project,SIGNAL(triggered()),this,SLOT(openProject()));
+    connect (ui->actionSave_project,SIGNAL(triggered()),this,SLOT(saveProject()));
+    connect (ui->actionAbout_KBookOCR,SIGNAL(triggered()),this,SLOT(showAbout()));
+    connect (ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect (ui->actionDonate,SIGNAL(triggered()),this, SLOT(showDonate()));
 
-    kToolBar->setMovable(true);
-    kOCRToolBar->setMovable(true);
 
-    this->addToolBar(kToolBar);
-    this->addToolBar(kOCRToolBar);
+    connect (ui->actionFile,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
+    connect (ui->actionEditor,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
+    connect (ui->actionFrom_scaner,SIGNAL(triggered()),this,SLOT(scanImg()));
+    connect (ui->actionFile_2, SIGNAL(triggered()),this,SLOT(addFileToProject()));
+}
 
-    //kToolBar->addWidget(new QLabel("<b>Step #1:</b>"));
-    KAction* addDoc =// new QAction(this);
+void KBookocr::makeActions()
+{
+    addDoc =// new QAction(this);
             new KAction(KIcon(
                             iconLoader->loadIcon(QString("document-open-data"),(KIconLoader::Group)4)
                             //ico
@@ -269,9 +286,7 @@ void KBookocr::makeToolbox()
 
     connect (addDoc, SIGNAL(triggered()),this,SLOT(addFileToProject()));
 
-    kToolBar->addAction(addDoc);
-
-    KAction* scanDoc =// new QAction(this);
+    scanDoc =// new QAction(this);
             new KAction(KIcon(
                             //":/ico/files/icons32/from_scanner.png"
                             iconLoader->loadIcon(QString("scanner"),(KIconLoader::Group)4)
@@ -280,12 +295,7 @@ void KBookocr::makeToolbox()
 
     connect (scanDoc,SIGNAL(triggered()),this,SLOT(scanImg()));
 
-    kToolBar->addAction(scanDoc);
-
-    //kToolBar->addSeparator();
-    //kToolBar->addWidget(new QLabel("<b>Step #2:</b>"));
-
-    KAction* toFile =// new QAction(this);
+    toFile =// new QAction(this);
             new KAction(KIcon(
                             //":/ico/files/icons32/ocr_to_file.png"
                                    iconLoader->loadIcon(QString("document-save"),(KIconLoader::Group)4)
@@ -294,9 +304,7 @@ void KBookocr::makeToolbox()
 
     connect (toFile,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
 
-    kOCRToolBar->addAction(toFile);
-
-    KAction* toEditor =// new QAction(this);
+    toEditor =// new QAction(this);
             new KAction(KIcon(
                             //":/ico/files/icons32/open_in_editor.png"
                                    iconLoader->loadIcon(QString("accessories-text-editor"),(KIconLoader::Group)4)
@@ -305,17 +313,21 @@ void KBookocr::makeToolbox()
 
     connect (toEditor,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
 
-    kOCRToolBar->addAction(toEditor);
+
+}
+
+void KBookocr::makeFirstToolbox()
+{
+    kToolBar = new KToolBar("main ToolBar",this);
+    kToolBar->setMovable(true);
+    this->addToolBar(kToolBar);
+
+    kToolBar->addAction(addDoc);
+    kToolBar->addAction(scanDoc);
     kToolBar->addSeparator();
     QLabel *langLabel = new QLabel("<b>Project language:</b>", this);
     kToolBar->addWidget(langLabel);
 
-    //this->langComboBox->setItemText(0,"ruseng");
-    /*QStringList langs;
-    langs << "ruseng"
-          << "rus"
-          << "ukr"
-          << "eng"*/
     this->langComboBox->addItems(
                 QStringList()
                          << QApplication::translate("KBookocr", "ruseng", 0, QApplication::UnicodeUTF8)
@@ -351,41 +363,31 @@ void KBookocr::makeToolbox()
     kToolBar->addWidget(this->layoutCheckBox);
     kToolBar->addSeparator();
 
-    ui->pushButton_3->setIcon(QIcon(
-                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
-                                  ));
-
-    ui->pushButton_12->setIcon(QIcon(
-                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
-                                  ));
-
-    ui->pushButton_4->setIcon(QIcon(
-                                  iconLoader->loadIcon(QString("dialog-cancel"),(KIconLoader::Group)4)
-                                  ));
-
-    /*ui->pushButton_2->setIcon(QIcon(
-                                  iconLoader->loadIcon(QString("media-playback-pause"),(KIconLoader::Group)4)
-                                  ));*/
-
-
-    // MENU
-    ui->actionTool_box->setCheckable(true);
-    ui->actionTool_box->setChecked(true);
-
-    connect (ui->actionOpen_project,SIGNAL(triggered()),this,SLOT(openProject()));
-    connect (ui->actionSave_project,SIGNAL(triggered()),this,SLOT(saveProject()));
-    connect (ui->actionAbout_KBookOCR,SIGNAL(triggered()),this,SLOT(showAbout()));
-    connect (ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
-    connect (ui->actionDonate,SIGNAL(triggered()),this, SLOT(showDonate()));
-    connect (ui->actionTool_box, SIGNAL(triggered(bool)),kToolBar,SLOT(setShown(bool)));
-    connect (ui->actionShow_OCR_toolbar, SIGNAL(triggered(bool)),kOCRToolBar,SLOT(setShown(bool)));
     connect (kToolBar, SIGNAL(visibilityChanged(bool)),ui->actionTool_box,SLOT(setChecked(bool)));
-    connect (kOCRToolBar, SIGNAL(visibilityChanged(bool)),ui->actionShow_OCR_toolbar,SLOT(setChecked(bool)));
-    connect (ui->actionFile,SIGNAL(triggered()),this,SLOT(startOCRToEditor()));
-    connect (ui->actionEditor,SIGNAL(triggered()),this,SLOT(startOCRToFile()));
-    connect (ui->actionFrom_scaner,SIGNAL(triggered()),this,SLOT(scanImg()));
-    connect (ui->actionFile_2, SIGNAL(triggered()),this,SLOT(addFileToProject()));
+    connect (ui->actionTool_box, SIGNAL(triggered(bool)),kToolBar,SLOT(setShown(bool)));
+}
 
+void KBookocr::makeSecondToolbox()
+{
+    kOCRToolBar = new KToolBar("OCR toolBar",this);
+    kOCRToolBar->setMovable(true);
+    this->addToolBar(kOCRToolBar);
+
+    kOCRToolBar->addAction(toFile);
+
+
+    kOCRToolBar->addAction(toEditor);
+
+    connect (ui->actionShow_OCR_toolbar, SIGNAL(triggered(bool)),kOCRToolBar,SLOT(setShown(bool)));
+    connect (kOCRToolBar, SIGNAL(visibilityChanged(bool)),ui->actionShow_OCR_toolbar,SLOT(setChecked(bool)));
+}
+
+void KBookocr::makeToolbox()
+{
+    this->makeActions();
+    this->makeFirstToolbox();
+    this->makeSecondToolbox();
+    this->makeMenu();
 }
 
 void KBookocr::showAboutKDE()

@@ -12,6 +12,7 @@
 #include <KDE/KIconLoader>
 #include <KDE/KMainWindow>
 #include <KDE/KComboBox>
+#include <KDE/KAction>
 //#include <kdialog.h>
 
 #include "enum.h"
@@ -175,7 +176,23 @@ private:
     //bool addView(Document*,int);
     int idCount;
     int getNewId();
+
+    // ACTIONS
+    KAction* addDoc;
+    KAction* scanDoc ;
+    KAction* toFile;
+    KAction* toEditor;
+
+    KToolBar *kToolBar;
+    KToolBar *kOCRToolBar ;
+
+    void makeActions();
     void makeToolbox();
+    void makeFirstToolbox();
+    void makeSecondToolbox();
+    void makeMenu();
+    // END ACTIONS
+
 
 
 

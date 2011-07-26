@@ -208,16 +208,6 @@ void OCRThread::nextTXTOCR(QString path)
         args << "-o";
         args << pathTo;
         args << pathFrom;
-        //args.append(ui->comboBox->currentText());
-
-        //if (ui->checkBox->isChecked())
-        //{
-        //    args.append(KBookocr::fromFormatToStr(this->getOutFormat()));
-        //}
-        //else
-        //{
-        //    args.append("text");
-        //}
 
         OCRProccess->start("cuneiform",args);
     }
