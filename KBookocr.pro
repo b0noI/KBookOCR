@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     savethread.cpp \
     jpgdirdocument.cpp \
     rangedialog.cpp \
-    ocrkernel.cpp
+    ocrkernel.cpp \
+    cuniiformocr.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -38,7 +39,8 @@ HEADERS  += kbookocr.h \
     savethread.h \
     jpgdirdocument.h \
     rangedialog.h \
-    ocrkernel.h
+    ocrkernel.h \
+    cuniiformocr.h
 
 FORMS    += kbookocr.ui \
     viewwidget.ui \

@@ -11,20 +11,32 @@ class OCRKernel : public QObject
     Q_OBJECT
 
 public:
-    OCRKernel();
+    OCRKernel(const QString&);
     ~OCRKernel();
-    virtual bool startOCR(const QString& from,const QString& to,const QString& lang, bool layout) = 0;
+
+    virtual QString getProgName() const = 0;
+
+    bool startOCR(const QString& from,const QString& to,const QString& lang, bool layout);
+    bool setProg(const QString&);
+    QString getProg() const;
+
 
 signals:
     void ocrReady(QString);
 
+protected:
+    virtual QStringList generateArgs(const QString& from,const QString& to,const QString& lang, bool layout) = 0;
 
 private:
-    bool startOCRProcess(const QString&,const QStringList&);
+    bool startOCRProcess(const QStringList&);
     bool deleteOCRProcess();
     QProcess* ocrProcess;
     QString toPath;
     QString getToPath() const;
+
+    QString prog;
+    bool isReady() const;
+
 private slots:
     void ocrReady(int);
 };

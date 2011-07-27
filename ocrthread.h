@@ -6,12 +6,14 @@
 #include <QString>
 #include <QProcess>
 
+#include "ocrkernel.h"
+
 
 class OCRThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit OCRThread(QObject *parent, QString, QString lang, bool html);
+    explicit OCRThread(QObject *parent, QString, QString lang, bool html, OCRKernel*);
     ~OCRThread();
     void run();
 
@@ -40,8 +42,9 @@ private:
     QString outPath;
     QString inPath;
 
-    QProcess* OCRProccess;
+    //QProcess* OCRProccess;
     QProcess* SpliterProcess;
+    OCRKernel* kernel;
     QList<QString> imges;
     QList<QString> txts;
 

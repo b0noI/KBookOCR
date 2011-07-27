@@ -5,11 +5,12 @@
 #include <QTextStream>
 
 
-OCRThread::OCRThread(QObject *parent, QString inPath, QString lang, bool html) :
+OCRThread::OCRThread(QObject *parent, QString inPath, QString lang, bool html, OCRKernel* ker) :
     QThread(parent),
     OCRProccess(0),
     SpliterProcess(0),
-    isReady(false)
+    isReady(false),
+    kernel(ker)
 {
 
     this->lang = lang;
@@ -183,19 +184,16 @@ void OCRThread::nextTXTOCR(QString path)
     {
      // OCR
         emit this->process(((double)this->count - (double)this->getImgCount())/((double)this->count/(double)100));
-        if (this->OCRProccess)
-            delete this->OCRProccess;
+        //if (this->OCRProccess)
+        //    delete this->OCRProccess;
+        //if (this->kernel)
+        //    delete this->kernel;
 
-        this->OCRProccess = new QProcess(this);
-        connect (this->OCRProccess,SIGNAL(finished(int)),this,SLOT(txtReady(int)));
-        //connect (this->OCRProccess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(txtReady(int)));
-        //connect (this->OCRProccess,SIGNAL(aboutToClose()),this,SLOT(txtReady(int)));
-        //connect (this->OCRProccess, SIGNAL(error(QProcess::ProcessError)),)
+        // = new QProcess(this);
+        //connect (this->OCRProccess,SIGNAL(finished(int)),this,SLOT(txtReady(int)));
+        connect (this->kernel,SIGNAL(ocrReady(QString)),this,SLOT(txtReady(int)));
 
-        //if (!this->saveToFile)
-        //    this->setPathToSave(pathTo);
-
-        QString pathFrom = path;
+        /*QString pathFrom = path;
         QFileInfo inf(path);
         QString pathTo = inf.filePath() +( this->html ? ".html" : ".txt");
 
@@ -209,7 +207,8 @@ void OCRThread::nextTXTOCR(QString path)
         args << pathTo;
         args << pathFrom;
 
-        OCRProccess->start("cuneiform",args);
+        OCRProccess->start("cuneiform",args);*/
+        this->kernel->startOCR(pathFrom, pathTo, this->lang, this->html);
     }
 
 }
