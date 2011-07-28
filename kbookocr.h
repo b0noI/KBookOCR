@@ -222,7 +222,7 @@ private slots:
     void scanImg();
     void startOCRToFile();
     void startOCRToEditor();
-    void startOCR();
+    bool startOCR();
     void on_spinBox_2_editingFinished();
     void on_verticalScrollBar_valueChanged(int value);
     void on_label_view1_linkActivated(QString link);

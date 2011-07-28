@@ -1797,31 +1797,55 @@ void KBookocr::scanImg()
     ui->label_3->setPixmap(pm);
 }*/
 
-void KBookocr::startOCRToFile()
+bool KBookocr::startOCR()
 {
     if (this->adder)
     {
         QMessageBox::warning(this,"KBookOCR","Wait untill adding");
-        return ;
+        return false;
     }
+
+    this->clearWorkDir();
+
+    if (this->saveImages())
+    {
+        if (this->OCR)
+            delete this->OCR;
+
+        this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked());
+        connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
+        connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
+        this->OCR->start();
+
+        return true;
+    }
+    return false;
+}
+
+void KBookocr::startOCRToEditor()
+{
+
+
+    this->saveToFile = false;
+
+    if ( this->startOCR())
+        return ;
+
+
+
+QMessageBox::warning(this,"KBookOCR", "OCR error");
+}
+
+void KBookocr::startOCRToFile()
+{
 
     this->saveToFile = true;
     if (this->setPathToSave())
     {
-        this->clearWorkDir();
-
-        if (this->saveImages())
-        {
-            if (this->OCR)
-                delete this->OCR;
-
-            this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked());
-            connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
-            connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
-            this->OCR->start();
-
+        if (this->startOCR())
             return ;
-        }
+
+
     }
     QMessageBox::warning(this,"KBookOCR", "files error");
     /*this->start();*/
@@ -1932,33 +1956,7 @@ QString KBookocr::getWorkDir()
     return dirPath;
 }
 
-void KBookocr::startOCRToEditor()
-{
-    if (this->adder)
-    {
-        QMessageBox::warning(this,"KBookOCR","Wait untill adding");
-        return ;
-    }
 
-    this->saveToFile = false;
-    //this->start();
-    this->clearWorkDir();
-
-    if (this->saveImages())
-    {
-        if (this->OCR)
-            delete this->OCR;
-
-        this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked());
-        connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
-        connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
-        this->OCR->start();
-
-        return ;
-    }
-
-QMessageBox::warning(this,"KBookOCR", "OCR error");
-}
 
 void KBookocr::on_spinBox_2_editingFinished()
 {
