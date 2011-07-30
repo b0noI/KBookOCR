@@ -25,7 +25,7 @@ signals:
     void ocrReady(QString);
 
 protected:
-    virtual QStringList generateArgs(const QString& from,const QString& to,const QString& lang, bool layout) = 0;
+    virtual QStringList generateArgs(const QString& from,const QString& to,const QString& lang, bool layout) const = 0;
 
 private:
     bool startOCRProcess(const QStringList&);

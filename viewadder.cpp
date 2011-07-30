@@ -16,6 +16,7 @@ void viewAdder::run()
     {
         for (int i=0;i<doc->getPageCount();i++)
         {
+            this->mutex.lock();
             emit this->done(doc->getPageCount(),i);
             //this->addView(doc,i);
             emit this->newImgDone(doc->getPage(i),i,doc);
@@ -23,6 +24,11 @@ void viewAdder::run()
     }
     //exec();
     //this->exec();
+}
+
+void viewAdder::unLock()
+{
+    this->mutex.unlock();
 }
 
 void viewAdder::Execute()

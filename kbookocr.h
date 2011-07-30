@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include <QDropEvent>
 #include <QDragEnterEvent>
+#include <QMutex>
 
 #include <libksane/ksane.h>
 #include <KDE/KIconLoader>
@@ -23,6 +24,8 @@
 #include "savethread.h"
 #include "jpgdirdocument.h"
 #include "rangedialog.h"
+#include "ocrkernel.h"
+#include "kerneldialog.h"
 //#include "scanerdialog.h"
 
 // #include <poppler/PDFDoc.h>
@@ -109,10 +112,13 @@ private:
     bool startOpenDJVU(QString);
     bool showRDialog();
 
+    OCRKernel* getCurrentOCRKernel();
+
     Ui::KBookocr *ui;
     KComboBox *langComboBox;
     QCheckBox *layoutCheckBox;
     RangeDialog rDialog;
+    KernelDialog kernelDialog;
 
     KIconLoader* iconLoader;
 
@@ -182,23 +188,27 @@ private:
     KAction* scanDoc ;
     KAction* toFile;
     KAction* toEditor;
+    KAction* showSettings;
 
     KToolBar *kToolBar;
     KToolBar *kOCRToolBar ;
+    KToolBar *settingsToolBar;
 
     void makeActions();
     void makeToolbox();
     void makeFirstToolbox();
     void makeSecondToolbox();
+    void makeSettingsToolbox();
     void makeMenu();
     // END ACTIONS
 
-
+    QMutex mutex;
 
 
 private slots:
 
     void showAbout();
+    void showKernelDialog();
     void on_horizontalSlider_sliderReleased();
     void on_pushButton_4_clicked();
     void on_horizontalSlider_valueChanged(int value);

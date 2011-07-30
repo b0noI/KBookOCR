@@ -5,6 +5,7 @@
 #include <QList>
 #include <QString>
 #include <QProcess>
+//#include <QMutex>
 
 #include "ocrkernel.h"
 
@@ -16,6 +17,7 @@ public:
     explicit OCRThread(QObject *parent, QString, QString lang, bool html, OCRKernel*);
     ~OCRThread();
     void run();
+    //bool unLock();
 
 signals:
 
@@ -24,6 +26,7 @@ signals:
 
 public slots:
     void txtReady(int);
+    void txtReady(QString);
     void nextTXTOCR(QString);
     void splitReady();
 
@@ -41,6 +44,8 @@ private:
     QString imgDir;
     QString outPath;
     QString inPath;
+
+    //QMutex mutex;
 
     //QProcess* OCRProccess;
     QProcess* SpliterProcess;

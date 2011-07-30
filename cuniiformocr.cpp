@@ -1,3 +1,5 @@
+//#include <QFileInfo>
+
 #include "cuniiformocr.h"
 
 CuniIFormOCR::CuniIFormOCR() :
@@ -13,8 +15,8 @@ QString CuniIFormOCR::getProgName() const
 QStringList CuniIFormOCR::generateArgs(const QString &from, const QString &to, const QString &lang, bool layout) const
 {
     QString pathFrom = from;
-    QFileInfo inf(from);
-    QString pathTo = inf.filePath() +( layout ? ".html" : ".txt");
+    //QFileInfo inf(from);
+    //QString pathTo = inf.filePath() +( layout ? ".html" : ".txt");
 
     QStringList args;
     args.clear();
@@ -25,4 +27,5 @@ QStringList CuniIFormOCR::generateArgs(const QString &from, const QString &to, c
     args << "-o";
     args << to;
     args << pathFrom;
+    return args;
 }

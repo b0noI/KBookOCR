@@ -73,7 +73,7 @@ bool OCRKernel::startOCR(const QString &from, const QString &to, const QString &
 
 bool OCRKernel::deleteOCRProcess()
 {
-    if (this->ocrProcess)
+    if (this->ocrProcess != 0)
     {
         delete this->ocrProcess;
         this->ocrProcess = 0;

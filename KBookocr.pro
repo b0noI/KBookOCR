@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     jpgdirdocument.cpp \
     rangedialog.cpp \
     ocrkernel.cpp \
-    cuniiformocr.cpp
+    cuniiformocr.cpp \
+    kerneldialog.cpp \
+    settings.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -40,11 +42,14 @@ HEADERS  += kbookocr.h \
     jpgdirdocument.h \
     rangedialog.h \
     ocrkernel.h \
-    cuniiformocr.h
+    cuniiformocr.h \
+    kerneldialog.h \
+    settings.h
 
 FORMS    += kbookocr.ui \
     viewwidget.ui \
-    rangedialog.ui
+    rangedialog.ui \
+    kerneldialog.ui
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -lpoppler-qt4 \

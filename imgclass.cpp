@@ -18,7 +18,7 @@ imgClass::imgClass(QImage img)
     QFileInfo* inf = 0;
     do
     {
-        imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+        imgPath = this->getImgDir() + QString::number(rand()) + ".tif";
         if (inf)
             delete inf;
         inf = new QFileInfo(imgPath);
@@ -83,6 +83,7 @@ bool imgClass::open(QString path)
              suffix == "bmp" ||
              suffix == "gif" ||
              suffix == "tiff" ||
+             suffix == "tif" ||
              suffix == "png"))
     {
         this->img.load(path);
@@ -91,7 +92,7 @@ bool imgClass::open(QString path)
         QFileInfo* inf = 0;
         do
         {
-            imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+            imgPath = this->getImgDir() + QString::number(rand()) + ".tif";
             if (inf)
                 delete inf;
             inf = new QFileInfo(imgPath);
