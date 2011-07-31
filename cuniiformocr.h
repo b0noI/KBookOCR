@@ -7,6 +7,8 @@ class CuniIFormOCR : public OCRKernel
 public:
     CuniIFormOCR();
     QString getProgName() const;
+    QString getFormat() const;
+    QStringList getLanguageList () const;
 
 
 

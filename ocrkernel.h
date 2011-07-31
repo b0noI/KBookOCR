@@ -15,6 +15,8 @@ public:
     ~OCRKernel();
 
     virtual QString getProgName() const = 0;
+    virtual QString getFormat() const = 0;
+    virtual QStringList getLanguageList () const = 0;
 
     bool startOCR(const QString& from,const QString& to,const QString& lang, bool layout);
     bool setProg(const QString&);

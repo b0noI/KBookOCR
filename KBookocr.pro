@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     ocrkernel.cpp \
     cuniiformocr.cpp \
     kerneldialog.cpp \
-    settings.cpp
+    settings.cpp \
+    tesseractocr.cpp
 
 HEADERS  += kbookocr.h \
     enum.h \
@@ -44,7 +45,8 @@ HEADERS  += kbookocr.h \
     ocrkernel.h \
     cuniiformocr.h \
     kerneldialog.h \
-    settings.h
+    settings.h \
+    tesseractocr.h
 
 FORMS    += kbookocr.ui \
     viewwidget.ui \

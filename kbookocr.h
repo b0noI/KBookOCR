@@ -101,8 +101,8 @@ private:
     void dragEnterEvent(QDragEnterEvent*);
 
     bool saveImages();
-    bool saveAllImages();
-    bool saveImages(int,int);
+    //bool saveAllImages();
+    //bool saveImages(int,int);
     bool saveImg(int);
     bool saveManualImages();
     QString getWorkDir();
@@ -116,7 +116,7 @@ private:
 
     Ui::KBookocr *ui;
     KComboBox *langComboBox;
-    QCheckBox *layoutCheckBox;
+    //QCheckBox *layoutCheckBox;
     RangeDialog rDialog;
     KernelDialog kernelDialog;
 

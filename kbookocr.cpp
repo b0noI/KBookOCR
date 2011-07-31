@@ -79,8 +79,8 @@ KBookocr::KBookocr(QWidget *parent) :
 
 
     this->langComboBox = new KComboBox(this);
-    this->layoutCheckBox = new QCheckBox("OCR layout",this);
-    this->layoutCheckBox->setChecked(true);
+    //this->layoutCheckBox = new QCheckBox("OCR layout",this);
+    //this->layoutCheckBox->setChecked(true);
 
     //ui->verticalLayout->addWidget(new QPushButton("OCR to file"));
 
@@ -342,8 +342,10 @@ void KBookocr::makeSettingsToolbox()
     QLabel *langLabel = new QLabel("<b>Project language:</b>", this);
     this->settingsToolBar->addWidget(langLabel);
 
-    this->langComboBox->addItems(
-                QStringList()
+    OCRKernel *tmpKer = this->getCurrentOCRKernel();
+
+    this->langComboBox->addItems(tmpKer->getLanguageList());
+                /*QStringList()
                          << QApplication::translate("KBookocr", "ruseng", 0, QApplication::UnicodeUTF8)
                          << QApplication::translate("KBookocr", "rus", 0, QApplication::UnicodeUTF8)
                          << QApplication::translate("KBookocr", "ukr", 0, QApplication::UnicodeUTF8)
@@ -368,13 +370,15 @@ void KBookocr::makeSettingsToolbox()
                          << QApplication::translate("KBookocr", "lit", 0, QApplication::UnicodeUTF8)
                          << QApplication::translate("KBookocr", "est", 0, QApplication::UnicodeUTF8)
                          << QApplication::translate("KBookocr", "tur", 0, QApplication::UnicodeUTF8)
-                );
+                );*/
+
+    delete tmpKer;
 
     //this->langComboBox->
 
     this->settingsToolBar->addWidget(this->langComboBox);
 
-    this->settingsToolBar->addWidget(this->layoutCheckBox);
+    //this->settingsToolBar->addWidget(this->layoutCheckBox);
     this->settingsToolBar->addSeparator();
 
     this->settingsToolBar->addAction(this->showSettings);
@@ -667,7 +671,7 @@ void KBookocr::save()
 bool KBookocr::setPathToSave()
 {
     QString tmp;
-    tmp = QFileDialog::getSaveFileName(this,"Save file", "~", this->layoutCheckBox->isChecked() ? "HTML (*.html)" : "TXT (*.txt)");
+    tmp = QFileDialog::getSaveFileName(this,"Save file", "~", this->kernelDialog.isLayout() ? "HTML (*.html)" : "TXT (*.txt)");
     if (tmp.isEmpty())
         return false;
     this->pathToSave = tmp;
@@ -1830,7 +1834,7 @@ void KBookocr::scanImg()
 
 OCRKernel* KBookocr::getCurrentOCRKernel()
 {
-    return new CuniIFormOCR();
+    return this->kernelDialog.getOCRKernel();
 }
 
 bool KBookocr::startOCR()
@@ -1848,7 +1852,7 @@ bool KBookocr::startOCR()
         if (this->OCR)
             delete this->OCR;
 
-        this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->layoutCheckBox->isChecked(), this->getCurrentOCRKernel());
+        this->OCR = new OCRThread(this,this->getWorkDir(),this->langComboBox->currentText(),this->kernelDialog.isLayout(), this->getCurrentOCRKernel());
         connect (this->OCR,SIGNAL(ready(QString)),this,SLOT(OCRComplete(QString)));
         connect (this->OCR,SIGNAL(process(int)),this,SLOT(OCRProcess(int)));
         this->OCR->start();
@@ -1889,17 +1893,17 @@ void KBookocr::startOCRToFile()
 
 bool KBookocr::saveImages()
 {
-    if (ui->radioButton->isChecked())
+    /*if (ui->radioButton->isChecked())
        return this->saveAllImages();
 
     if (ui->radioButton_2->isChecked())
-        return this->saveImages(ui->spinBox->value(),ui->spinBox_2->value());
+        return this->saveImages(ui->spinBox->value(),ui->spinBox_2->value());*/
 
     if (ui->radioButton_3->isChecked())
             return this->saveManualImages();
 }
 
-bool KBookocr::saveAllImages()
+/*bool KBookocr::saveAllImages()
 {
     if (this->viewWidgets.count() > 0)
     {
@@ -1918,7 +1922,7 @@ bool KBookocr::saveAllImages()
         return true;
     }
     return false;
-}
+}*/
 
 bool KBookocr::saveManualImages()
 {
@@ -1933,16 +1937,19 @@ bool KBookocr::saveManualImages()
                 countAll++;
 
         //ViewWidget* view;
+        OCRKernel *tmpKer = this->getCurrentOCRKernel();
         if (countAll > 0)
         foreach (view, this->viewWidgets)
         {
+
             if (view->isChecked())
                 view->saveImg(this->getWorkDir()+
                           QString::number(view->get_Id())
-                          + ".kbookocr.tif");
+                          + ".kbookocr." + tmpKer->getFormat());
             count ++;
             ui->progressBar_3->setValue((count*100)/countAll);
         }
+        delete tmpKer;
 
         ui->groupBox_5->setVisible(false);
         return true;
@@ -1950,7 +1957,7 @@ bool KBookocr::saveManualImages()
     return false;
 }
 
-bool KBookocr::saveImages(int n1, int n2)
+/*bool KBookocr::saveImages(int n1, int n2)
 {
     if (n2 >= n1 && n2 <= this->viewWidgets.count()
             && n1 > 0)
@@ -1972,7 +1979,7 @@ bool KBookocr::saveImages(int n1, int n2)
     }
 
     return false;
-}
+}*/
 
 bool KBookocr::clearWorkDir()
 {

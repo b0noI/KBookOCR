@@ -54,7 +54,7 @@ QString OCRKernel::getToPath() const
 void OCRKernel::ocrReady(int)
 {
     emit this->ocrReady(this->getToPath());
-    this->deleteOCRProcess();
+    //this->deleteOCRProcess();
 }
 
 bool OCRKernel::startOCR(const QString &from, const QString &to, const QString &lang, bool layout)
