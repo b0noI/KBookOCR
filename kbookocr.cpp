@@ -171,6 +171,17 @@ KBookocr::KBookocr(QWidget *parent) :
 
     //connect (this->viewWidgets,SIGNAL())
     connect (&(this->rDialog),SIGNAL(rangeReady(int,int)),this,SLOT(rangeReady(int,int)));
+    connect (&(this->kernelDialog),SIGNAL(newKernel()),this,SLOT(newKernelOCR()));
+}
+
+void KBookocr::newKernelOCR()
+{
+        OCRKernel* tmpKer = this->kernelDialog.getOCRKernel();
+
+        this->langComboBox->clear();
+        this->langComboBox->addItems(tmpKer->getLanguageList());
+
+        delete tmpKer;
 }
 
 void KBookocr::showKernelDialog()

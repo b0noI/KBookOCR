@@ -233,6 +233,7 @@ private slots:
     void startOCRToFile();
     void startOCRToEditor();
     bool startOCR();
+    void newKernelOCR();
     void on_spinBox_2_editingFinished();
     void on_verticalScrollBar_valueChanged(int value);
     void on_label_view1_linkActivated(QString link);

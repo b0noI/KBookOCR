@@ -4,6 +4,7 @@
 #include "ocrkernel.h"
 
 #include <QDialog>
+//#include <QObject>
 
 namespace Ui {
     class KernelDialog;
@@ -20,8 +21,13 @@ public:
     OCRKernel* getOCRKernel();
     bool isLayout() const;
 
+signals:
+    void newKernel();
+
 private slots:
     void on_pushButton_clicked();
+
+    void on_comboBox_currentIndexChanged(int index);
 
 private:
     Ui::KernelDialog *ui;

@@ -41,3 +41,8 @@ void KernelDialog::on_pushButton_clicked()
 {
     this->close();
 }
+
+void KernelDialog::on_comboBox_currentIndexChanged(int index)
+{
+    emit this->newKernel();
+}
