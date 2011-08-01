@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include <QDropEvent>
 #include <QDragEnterEvent>
+#include <QMutex>
 
 #include <libksane/ksane.h>
 #include <KDE/KIconLoader>
@@ -183,6 +184,16 @@ private:
     KAction* toFile;
     KAction* toEditor;
 
+    KAction* openPrj;
+    KAction* savePrj;
+    KAction* clearPrj;
+    KAction* selectAll;
+    KAction* deselectAll;
+    KAction* exitPrg;
+    KAction* openSettings;
+    KAction* showAb;
+    KAction* showDonate;
+
     KToolBar *kToolBar;
     KToolBar *kOCRToolBar ;
 
@@ -191,7 +202,13 @@ private:
     void makeFirstToolbox();
     void makeSecondToolbox();
     void makeMenu();
+    void makeFileMenu();
+    void makeEditMenu();
+    void makeViewMenu();
+    void makeAboutMenu();
     // END ACTIONS
+
+    QMutex mutex;
 
 
 

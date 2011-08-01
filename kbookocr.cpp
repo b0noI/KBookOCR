@@ -51,7 +51,16 @@ KBookocr::KBookocr(QWidget *parent) :
     OCR(0),
     saver(0),
     loader(0),
-    convertDjvu2Pdf(0)
+    convertDjvu2Pdf(0),
+    openPrj(0),
+    savePrj(0),
+    clearPrj(0),
+    selectAll(0),
+    deselectAll(0),
+    exitPrg(0),
+    openSettings(0),
+    showAb(0),
+    showDonate(0)
     //iconLoader(this)
     //currentDoc(this)
 {
@@ -460,7 +469,6 @@ int KBookocr::getNewId()
 KBookocr::~KBookocr()
 {
     this->save();
-
 
     if (this->loader)
     {
@@ -2187,14 +2195,26 @@ void KBookocr::deleteViewId(int id)
 void KBookocr::newImgAdd(QImage img, int n, Document* doc)
 {
 
-    ViewWidget* view = new ViewWidget(this->getNewId(),this,img,n,doc,n);
-    connect (view, SIGNAL(deleted(int)),this,SLOT(deleteViewId(int)));
-    connect (view,SIGNAL(selected(int)),this,SLOT(selectedViewId(int)));
-    ui->verticalLayout_10->addWidget(view);
-    this->viewWidgets << view;
-    this->pageCounChanged(this->getPageCount());
-    if (ui->spinBox_3->value() == 0)
-        ui->spinBox_3->setValue(1);
+    //this->adder->wait();
+
+    //synchronized(this)
+    //{
+
+    this->mutex.lock();
+
+
+        ViewWidget* view = new ViewWidget(this->getNewId(),this,img,n,doc,n);
+        connect (view, SIGNAL(deleted(int)),this,SLOT(deleteViewId(int)));
+        connect (view,SIGNAL(selected(int)),this,SLOT(selectedViewId(int)));
+        ui->verticalLayout_10->addWidget(view);
+        this->viewWidgets << view;
+        this->pageCounChanged(this->getPageCount());
+        if (ui->spinBox_3->value() == 0)
+            ui->spinBox_3->setValue(1);
+
+    this->mutex.unlock();
+    //}
+    //this->adder->
 }
 
 void KBookocr::newViewAdd(ViewWidget *view)

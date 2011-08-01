@@ -18,6 +18,7 @@ void viewAdder::run()
         {
             emit this->done(doc->getPageCount(),i);
             //this->addView(doc,i);
+            //QImage
             emit this->newImgDone(doc->getPage(i),i,doc);
         }
     }
