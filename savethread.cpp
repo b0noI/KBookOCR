@@ -48,7 +48,7 @@ bool SaveThread::startSave()
 
         QString prog = "save.sh";
         QStringList args;
-        args << this->getTempDir() + "*.jpg";
+        args << this->getTempDir() + "*.tif";
         args << this->savePath;
 
         /*QString prog = "gzip";
@@ -80,7 +80,7 @@ bool SaveThread::saveViews()
             done++;
             QString fileSavePath = this->getTempDir()+"KbookOCR."+
                     QString::number(view->get_Id())+
-                    ".jpg";
+                    ".tif";
             view->saveImg(fileSavePath);
             emit this->process((int)((done*100)/all));
         }

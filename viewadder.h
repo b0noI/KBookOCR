@@ -3,6 +3,8 @@
 
 #include <QThread>
 #include <QLayout>
+#include <QMutex>
+
 #include "document.h"
 #include "viewwidget.h"
 
@@ -16,6 +18,7 @@ public:
     int getNewId();
     int getWidgetCount();
     ViewWidget* getWidgetAt(int);
+    void unLock();
 
 
 signals:
@@ -32,7 +35,7 @@ private:
     Document* doc;
     int START;
     QList<ViewWidget*> widgetVector;
-
+    QMutex mutex;
 };
 
 #endif // VIEWADDER_H

@@ -41,7 +41,7 @@ int JpgDirDocument::getPageCount()
 
 QString JpgDirDocument::getFormat()
 {
-    return "jpg";
+    return "tif";
 }
 
 bool JpgDirDocument::open(QString path)
@@ -53,7 +53,7 @@ bool JpgDirDocument::open(QString path)
         QFileInfo file;
         foreach (file, files)
         {
-            if (file.suffix().toLower() == "jpg")
+            if (file.suffix().toLower() == "tif")
                 this->files << file;
         }
         this->ready = true;

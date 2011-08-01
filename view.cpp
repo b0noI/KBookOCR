@@ -45,7 +45,7 @@ bool View::setView(const QImage &img)
         QFileInfo* inf = 0;
         do
         {
-            imgPath = this->getImgDir() + QString::number(rand()) + ".jpg";
+            imgPath = this->getImgDir() + QString::number(rand()) + ".tif";
             if (inf)
                 delete inf;
             inf = new QFileInfo(imgPath);

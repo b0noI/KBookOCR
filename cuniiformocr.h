@@ -7,8 +7,13 @@ class CuniIFormOCR : public OCRKernel
 public:
     CuniIFormOCR();
     QString getProgName() const;
+    QString getFormat() const;
+    QStringList getLanguageList () const;
+
+
+
 private:
-    QStringList generateArgs(const QString& from,const QString& to,const QString& lang, bool layout);
+    QStringList generateArgs(const QString& from,const QString& to,const QString& lang, bool layout) const;
 };
 
 #endif // CUNIIFORMOCR_H

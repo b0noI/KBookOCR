@@ -59,7 +59,7 @@ QImage pdfDocument::getRealPage(int n)
         //return this->doc->page(n)->renderToImage(124,179);
         double xy = this->doc->page(n)->pageSize().height()/
                 this->doc->page(n)->pageSize().width();
-        double x = 248;
+        double x = 350;
         double y = x*xy;
         return this->doc->page(n)->renderToImage(x,y);
 
@@ -97,17 +97,17 @@ QImage pdfDocument::getPage(int n)
             n >= 0 &&
             n < this->getPageCount())
     {
-        //doc->page(n)->renderToImage()
 
-        //doc->page(n)->
         double xy = this->doc->page(n)->pageSize().height()/
                 this->doc->page(n)->pageSize().width();
-        double x = 70;
-        double y = x*xy;
+        double x = 100;
+        //double y = x*xy;
+        double y = 100;
+        /*double x = this->doc->page(n)->pageSize().width();
+        double y = this->doc->
+page(n)->pageSize().height();*/
         return doc->page(n)->renderToImage(x,y);
-        //return this->getRealPage(n);
-                    //doc->page(n)->pageSize().width()
-                    //,doc->page(n)->pageSize().height());
+
     }
     return QImage();
 }

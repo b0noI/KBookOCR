@@ -7,7 +7,6 @@
 
 OCRThread::OCRThread(QObject *parent, QString inPath, QString lang, bool html, OCRKernel* ker) :
     QThread(parent),
-    OCRProccess(0),
     SpliterProcess(0),
     isReady(false),
     kernel(ker)
@@ -18,9 +17,7 @@ OCRThread::OCRThread(QObject *parent, QString inPath, QString lang, bool html, O
 
     this->html = html;
 
-    connect (this,SIGNAL(OCRReady()),this,SLOT(split()));
-
-
+    connect (this->kernel,SIGNAL(ocrReady(QString)),this,SLOT(splitReady()));
 }
 
 void OCRThread::run()
@@ -48,6 +45,17 @@ void OCRThread::run()
         //this->sleep();
         exec();
     }
+}
+
+//bool OCRThread::unLock()
+//{
+//    mutex.unlock();
+//    return true;
+//}
+
+void OCRThread::txtReady(QString)
+{
+    this->txtReady(0);
 }
 
 void OCRThread::txtReady(int)
@@ -121,7 +129,7 @@ bool OCRThread::spliter()
         args << this->imgDir+QDir::separator()+"*.txt";// > "+path;
         //args << ">";
         //args << path;
-    //    args << pathTo;
+       //args << pathTo;
        // args << pathFrom;
         //args.append(ui->comboBox->currentText());
 
@@ -145,16 +153,22 @@ bool OCRThread::spliter()
 
 OCRThread::~OCRThread()
 {
-    if (this->OCRProccess)
+    /*if (this->OCRProccess)
     {
         this->OCRProccess->kill();
         delete this->OCRProccess;
-    }
+    }*/
 
     if (this->SpliterProcess)
     {
         this->SpliterProcess->kill();
         delete this->SpliterProcess;
+    }
+
+    if (this->kernel)
+    {
+        delete this->kernel;
+        this->kernel = 0;
     }
 }
 
@@ -191,7 +205,12 @@ void OCRThread::nextTXTOCR(QString path)
 
         // = new QProcess(this);
         //connect (this->OCRProccess,SIGNAL(finished(int)),this,SLOT(txtReady(int)));
-        connect (this->kernel,SIGNAL(ocrReady(QString)),this,SLOT(txtReady(int)));
+        connect (this->kernel,SIGNAL(ocrReady(QString)),this,SLOT(txtReady(QString)));
+
+
+        QString pathFrom = path;
+        QFileInfo inf(path);
+        QString pathTo = inf.filePath() +( this->html ? ".html" : ".txt");
 
         /*QString pathFrom = path;
         QFileInfo inf(path);
@@ -250,7 +269,8 @@ bool OCRThread::isImg(QString path)
                 || suffix == "jpg"
                 || suffix == "jpeg"
                 || suffix == "bmp"
-                || suffix == "png")
+                || suffix == "png"
+                || suffix == "tif")
             return true;
     }
     return false;

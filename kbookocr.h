@@ -24,6 +24,8 @@
 #include "savethread.h"
 #include "jpgdirdocument.h"
 #include "rangedialog.h"
+#include "ocrkernel.h"
+#include "kerneldialog.h"
 //#include "scanerdialog.h"
 
 // #include <poppler/PDFDoc.h>
@@ -99,8 +101,8 @@ private:
     void dragEnterEvent(QDragEnterEvent*);
 
     bool saveImages();
-    bool saveAllImages();
-    bool saveImages(int,int);
+    //bool saveAllImages();
+    //bool saveImages(int,int);
     bool saveImg(int);
     bool saveManualImages();
     QString getWorkDir();
@@ -110,10 +112,13 @@ private:
     bool startOpenDJVU(QString);
     bool showRDialog();
 
+    OCRKernel* getCurrentOCRKernel();
+
     Ui::KBookocr *ui;
     KComboBox *langComboBox;
-    QCheckBox *layoutCheckBox;
+    //QCheckBox *layoutCheckBox;
     RangeDialog rDialog;
+    KernelDialog kernelDialog;
 
     KIconLoader* iconLoader;
 
@@ -183,6 +188,7 @@ private:
     KAction* scanDoc ;
     KAction* toFile;
     KAction* toEditor;
+    KAction* showSettings;
 
     KAction* openPrj;
     KAction* savePrj;
@@ -196,11 +202,13 @@ private:
 
     KToolBar *kToolBar;
     KToolBar *kOCRToolBar ;
+    KToolBar *settingsToolBar;
 
     void makeActions();
     void makeToolbox();
     void makeFirstToolbox();
     void makeSecondToolbox();
+    void makeSettingsToolbox();
     void makeMenu();
     void makeFileMenu();
     void makeEditMenu();
@@ -210,12 +218,10 @@ private:
 
     QMutex mutex;
 
-
-
-
 private slots:
 
     void showAbout();
+    void showKernelDialog();
     void on_horizontalSlider_sliderReleased();
     void on_pushButton_4_clicked();
     void on_horizontalSlider_valueChanged(int value);
@@ -240,6 +246,7 @@ private slots:
     void startOCRToFile();
     void startOCRToEditor();
     bool startOCR();
+    void newKernelOCR();
     void on_spinBox_2_editingFinished();
     void on_verticalScrollBar_valueChanged(int value);
     void on_label_view1_linkActivated(QString link);
